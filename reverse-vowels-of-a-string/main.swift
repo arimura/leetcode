@@ -1,6 +1,6 @@
-func reverseVowels(_ orgS: String) -> String {
-    var s = orgS
-    let len = s.count
+func reverseVowels(_ s: String) -> String {
+    var sArray = Array(s)
+    let len = sArray.count
     var startIdx = 0
     var endIdx = len - 1
     var isEnd = false
@@ -11,7 +11,7 @@ func reverseVowels(_ orgS: String) -> String {
                 break
             }
             
-            if (isVowels(s, startIdx)){
+            if (isVowels(sArray[startIdx])){
                 break
             }
             startIdx += 1
@@ -22,21 +22,16 @@ func reverseVowels(_ orgS: String) -> String {
                 isEnd = true
                 break
             }
-            if(isVowels(s, endIdx)){
+            if(isVowels(sArray[endIdx])){
                 break
             }
             endIdx -= 1
         }
         
         if(!isEnd){
-            
-            let indexF = s.index(s.startIndex, offsetBy: startIdx)
-            let indexB = s.index(s.startIndex, offsetBy: endIdx)
-            let charF = s[indexF]
-            let charB = s[indexB]
-            
-            s.replaceSubrange(indexF...indexF, with: String(charB))
-            s.replaceSubrange(indexB...indexB, with: String(charF))
+            let tmp = sArray[endIdx]
+            sArray[endIdx] = sArray[startIdx]
+            sArray[startIdx] = tmp
         }else {
             break
         }
@@ -48,12 +43,10 @@ func reverseVowels(_ orgS: String) -> String {
         
     }
     
-    return s
+    return String(sArray)
 }
 
-func isVowels(_ s: String, _ index: Int) -> Bool {
-    let i = s.index(s.startIndex, offsetBy: index)
-    let c = String(s[i])
+func isVowels(_ c: Character) -> Bool {
     switch c {
     case "a", "A", "e", "E", "i", "I", "o", "O", "u", "U":
         return true
