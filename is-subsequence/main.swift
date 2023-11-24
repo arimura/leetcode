@@ -1,20 +1,20 @@
 func isSubsequence(_ s: String, _ t: String) -> Bool {
-    if s == "" {
-        return true 
+  if s == "" {
+    return true
+  }
+  let sa = Array(s)
+  let ta = Array(t)
+  var saIdx = 0
+  let l = sa.count
+  for c in ta {
+    if c == sa[saIdx] {
+      saIdx += 1
     }
-    let sa = Array(s)
-    let ta = Array(t)
-    var saIdx = 0
-    let l = sa.count
-    for c in ta {
-        if c == sa[saIdx] {
-            saIdx += 1
-        }
-        if saIdx == l {
-            return true
-        } 
+    if saIdx == l {
+      return true
     }
-    return false
+  }
+  return false
 }
 
 let cases = [
