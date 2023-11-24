@@ -20,7 +20,7 @@ func isSubsequence(_ s: String, _ t: String) -> Bool {
 let cases = [
   ("abc", "ahbgdc", true),
   ("axc", "ahbgdc", false),
-  ("", "ahbgdc", false),
+  ("", "ahbgdc", true),
 ]
 
 for c in cases {
