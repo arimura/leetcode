@@ -36,7 +36,7 @@ func maxArea(_ height: [Int]) -> Int {
 
 let cases = [
   ([1, 8, 6, 2, 5, 4, 8, 3, 7], 49),
-  ([1,1],1),
+  ([1, 1], 1),
 ]
 
 for c in cases {
