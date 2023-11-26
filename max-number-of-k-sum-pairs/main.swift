@@ -28,7 +28,7 @@ func maxOperations(_ nums: [Int], _ k: Int) -> Int {
         break
       }
       if dif < lv {
-        r -= 1 
+        r -= 1
         break
       }
     }
