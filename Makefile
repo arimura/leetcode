@@ -6,5 +6,6 @@ run-java:
 
 run-swift:
 	swift $(P)/main.swift
+
 format-swift:
 	find . -name '*.swift' -exec swift-format -i {} \;
