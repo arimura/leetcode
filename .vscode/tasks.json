@@ -5,6 +5,11 @@
             "label": "format",
             "type": "shell",
             "command": "make format-swift"
+        },
+        {
+            "label": "run-swift",
+            "type": "shell",
+            "command": "make run-swift P=${fileDirname}"
         }
     ]
 }
