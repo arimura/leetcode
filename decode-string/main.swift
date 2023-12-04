@@ -1,83 +1,61 @@
-enum Element {
-  case k(Int)
-  case str(String)
-  case leftBracket
-  case rightBracket
+class Frame: CustomStringConvertible {
+  var number: Int = 0
+  var text: String = ""
+  init(number: Int) {
+    self.number = number
+  }
+  func val() -> String {
+    return String(repeating: text, count: number)
+  }
+  var description: String {
+    return "Frame numner: \(number), text: \(text)"
+  }
 }
 
 func decodeString(_ s: String) -> String {
-  var stack: [Element] = []
-  var r = ""
-  var tmp = ""
-  var idx = 0
+  var frameStack: [Frame] = []
+  var tmpNum = ""
+  var result = ""
   let sArray = Array(s)
-  while idx < sArray.count {
-    if sArray[idx].isNumber {
-      //process k
-      while true {
-        if !sArray[idx].isNumber {
-          stack.append(Element.k(Int(tmp)!))
-          tmp = ""
-          break
-        }
-        tmp += String(sArray[idx])
-        idx += 1
-      }
+  for c in sArray {
+    if c.isNumber {
+      tmpNum += String(c)
+      continue
     }
 
-    if sArray[idx] == "[" {
-      stack.append(Element.leftBracket)
-      idx += 1
+    if c == "[" {
+      frameStack.append(Frame(number: Int(tmpNum)!))
+      tmpNum = ""
       continue
     }
-    if sArray[idx] == "]" {
-      //clsed
-      if let l = stack.popLast(), case let Element.str(lastStr) = l {
-        //remove leftBracket
-        stack.removeLast()
-        //get k
-        if let l = stack.popLast(), case let Element.k(k) = l {
-          let multipled = String(repeating: lastStr, count: k)
-          if stack.count == 0 {
-            r += multipled
-            idx += 1
-            continue
-          } else {
-            if let l = stack.popLast(), case let Element.str(lastStr) = l {
-              stack.append(Element.str(lastStr + multipled))
-              idx += 1
-              continue
-            }
-          }
-        }
+
+    if c == "]" {
+      let lastFrame = frameStack.popLast()!
+      if frameStack.count == 0 {
+        result += lastFrame.val()
+        continue
       }
-      idx += 1
+      frameStack[frameStack.count - 1].text += lastFrame.val()
       continue
     }
-    if sArray[idx].isLetter {
-      while true {
-        if sArray.count <= idx  || !sArray[idx].isLetter {
-          if stack.count == 0 {
-            r += tmp
-            tmp = ""
-            break
-          }
-          stack.append(Element.str(tmp))
-          tmp = ""
-          break
-        }
-        tmp += String(sArray[idx])
-        idx += 1
+
+    if c.isLetter {
+      if frameStack.count == 0 {
+        result += String(c)
+        continue
       }
+      frameStack[frameStack.count - 1].text += String(c)
+      continue
     }
   }
-  return r 
+  return result
 }
 
 let cases = [
   ("3[a]2[bc]", "aaabcbc"),
   ("3[a2[c]]", "accaccacc"),
   ("2[abc]3[cd]ef", "abcabccdcdcdef"),
+  ("3[z]2[2[y]pq4[2[jk]e1[f]]]ef", "zzzyypqjkjkefjkjkefjkjkefjkjkefyypqjkjkefjkjkefjkjkefjkjkefef"),
 ]
 
 for c in cases {
