@@ -1,29 +1,63 @@
 class Solution {
   func predictPartyVictory(_ senate: String) -> String {
     let senateArray = Array(senate)
-    var rQueue: Array<Int> = []
-    var dQueue: Array<Int> = []
+    var rQueue: [Int] = []
+    var dQueue: [Int] = []
     for i in 0..<senateArray.count {
-        if senateArray[i] == "R" {
-           rQueue.append(i) 
-        } else{
-            dQueue.append(i)
-        } 
+      if senateArray[i] == "R" {
+        rQueue.append(i)
+      } else {
+        dQueue.append(i)
+      }
     }
-    while rQueue.count > 0 && dQueue.count > 0 {
-        if rQueue[0] < dQueue[0]{
-            dQueue.removeFirst()
-        }else{
-            rQueue.removeFirst()
+    var rQueueWinner: [Int] = []
+    var dQueueWinner: [Int] = []
+    while true {
+      while !(rQueue.count == 0 && dQueue.count == 0) {
+        // print("rQueue: \(rQueue)")
+        // print("dQueue: \(dQueue)")
+        // print("rQueueWinner: \(rQueueWinner)")
+        // print("dQueueWinner: \(dQueueWinner)")
+        if rQueue.count == 0 {
+          if rQueueWinner.count > 0 {
+            rQueueWinner.removeFirst()
+          }
+          dQueueWinner.append(dQueue[0])
+          dQueue.removeFirst()
+        } else if dQueue.count == 0 {
+          if dQueueWinner.count > 0 {
+            dQueueWinner.removeFirst()
+          }
+          rQueueWinner.append(rQueue[0])
+          rQueue.removeFirst()
+        } else if rQueue[0] < dQueue[0] {
+          dQueue.removeFirst()
+          rQueueWinner.append(rQueue[0])
+          rQueue.removeFirst()
+        } else {
+          rQueue.removeFirst()
+          dQueueWinner.append(dQueue[0])
+          dQueue.removeFirst()
         }
+      }
+      if rQueueWinner.count > 0 && dQueueWinner.count > 0 {
+        rQueue = rQueueWinner
+        rQueueWinner = []
+        dQueue = dQueueWinner
+        dQueueWinner = []
+      } else {
+        break
+      }
     }
-    return rQueue.count < dQueue.count ? "Dire" : "Radiant" 
+    return rQueueWinner.count < dQueueWinner.count ? "Dire" : "Radiant"
   }
 }
 
 let cases = [
-  ("RD", "Radiant"),
-  ("RDD", "Dire"),
+  // ("RD", "Radiant"),
+  // ("RDD", "Dire"),
+  //   ("DDRRR", "Dire")
+  ("DRDRR", "Dire")
 ]
 
 let s = Solution()
