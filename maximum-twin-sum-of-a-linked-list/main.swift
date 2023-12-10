@@ -40,21 +40,17 @@ extension ListNode: CustomStringConvertible {
 
 class Solution {
   func pairSum(_ head: ListNode?) -> Int {
-    guard let head = head else {
-      return 0
+    var l: [Int] = []
+    var n = head
+    while n != nil {
+        l.insert(n!.val, at:0)
+        n = n?.next
     }
-    let fv = head.val
     var m = 0
-    var current = head.next
-    while current != nil {
-      if current?.next == nil {
-        break
-      }
-      print(current!.val + current!.next!.val)
-      m = max(m, current!.val + current!.next!.val)
-      current = current?.next?.next
+    let h = ((l.count / 2) )
+    for i in 0..<h {
+        m = max(m, l[i] + l[l.count - 1 - i])
     }
-    m = max(m, fv + current!.val)
     return m
   }
 }
