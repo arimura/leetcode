@@ -41,27 +41,53 @@ public class TreeNode {
   }
 }
 
+class Solution {
+  func maxDepth(_ root: TreeNode?) -> Int {
+    return find(root, 0)
+  }
+
+  func find(_ n: TreeNode?, _ count: Int) -> Int {
+    var leftC = 0
+    if n?.left != nil {
+      let c = count + 1
+      leftC = c + find(n?.left, c)
+    }
+    var rightC = 0
+    if n?.right != nil {
+      let c = count + 1
+      rightC = c + find(n?.right, c)
+    }
+    return leftC < rightC ? rightC : leftC
+  }
+}
+
 var n1 = TreeNode(1)
 var n2 = TreeNode(2)
 var n3 = TreeNode(3)
+var n4 = TreeNode(4)
+var n5 = TreeNode(5)
+var n6 = TreeNode(6)
+var n7 = TreeNode(7)
+var n8 = TreeNode(8)
 n1.left = n2
 n1.right = n3
+n2.left = n4
+n2.right = n5
+n3.left = n6
+n3.right = n7
+n7.right = n8
 print(n1.toString())
 
+let s = Solution()
+print(s.maxDepth(n1))
 // func treeNode(fromArray array: [Int]) -> TreeNode {
 //   var head = TreeNode()
 //   var n = head
-//   var isLeft = true
 //   for e in array {
-//     if isLeft {
-//       if e != nil {
-//         n.left = TreeNode(e)
-//       }
-//     }else{
-//       if e != nil {
-//         n.right = TreeNode(e)
-//       }
-//       n = n.left
-//     }
+
 //   }
+// }
+
+// func insert(_ i:Int, _ atNode: TreeNode){
+
 // }
