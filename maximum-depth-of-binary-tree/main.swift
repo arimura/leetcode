@@ -43,20 +43,22 @@ public class TreeNode {
 
 class Solution {
   func maxDepth(_ root: TreeNode?) -> Int {
-    return find(root, 0)
+    if root == nil {
+      return 0
+    }
+    return find(root, 1)
   }
 
   func find(_ n: TreeNode?, _ count: Int) -> Int {
-    var leftC = 0
+    var leftC = count
     if n?.left != nil {
-      let c = count + 1
-      leftC = c + find(n?.left, c)
+      leftC = find(n?.left, leftC + 1)
     }
-    var rightC = 0
+    var rightC = count
     if n?.right != nil {
-      let c = count + 1
-      rightC = c + find(n?.right, c)
+      rightC = find(n?.right, rightC + 1)
     }
+
     return leftC < rightC ? rightC : leftC
   }
 }
