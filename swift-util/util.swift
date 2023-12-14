@@ -2,6 +2,7 @@ public class TreeNode {
   public var val: Int
   public var left: TreeNode?
   public var right: TreeNode?
+  public var childAppended = false
   public init() {
     self.val = 0
     self.left = nil
@@ -38,5 +39,41 @@ public class TreeNode {
     }
 
     return result
+  }
+}
+
+func treeNode(_ array: [Int]) -> TreeNode? {
+  var a = array
+  var n = TreeNode(a.removeFirst())
+  while a.count != 0 {
+    treeNodeAppend(&n, &a)
+  }
+  return n
+}
+
+func treeNodeAppend(_ n: inout TreeNode, _ array: inout [Int]) {
+  if var l = n.left {
+    treeNodeAppend(&l, &array)
+  }
+  if var r = n.right {
+    treeNodeAppend(&r, &array)
+  }
+
+  if !n.childAppended {
+    if array.isEmpty {
+      return
+    }
+    let vl = array.removeFirst()
+    if vl > 0 {
+      n.left = TreeNode(vl)
+    }
+    if array.isEmpty {
+      return
+    }
+    let vr = array.removeFirst()
+    if vr > 0 {
+      n.right = TreeNode(vr)
+    }
+    n.childAppended = true
   }
 }
