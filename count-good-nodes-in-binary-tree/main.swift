@@ -3,7 +3,7 @@ class Solution {
     return traverse(root, root!.val)
   }
 
-  func traverse(_ n: TreeNode?, m: Int) -> Int {
+  func traverse(_ n: TreeNode?, _ m: Int) -> Int {
     if n!.left == nil && n!.right == nil {
       if m <= n!.val {
         return 1
@@ -12,14 +12,21 @@ class Solution {
       }
     }
 
-    let newMax = n!.val < m ? m : n!.val
     var c = 0
-    if n!.left == nil {
+    var newMax = 0
+    if m <= n!.val {
+        c += 1
+        newMax = n!.val
+    }else{
+        newMax = m
+    }
+    if n!.left != nil {
       c += traverse(n!.left, newMax)
     }
-    if n!.right =! nil {
-      c += traverse(n!.right, newMAx)
+    if n!.right != nil {
+      c += traverse(n!.right, newMax)
     }
+
     return c
   }
 }
@@ -28,7 +35,7 @@ let cases = [
   ([3, 1, 4, 3, -1, 1, 5], 4),
   ([3, 3, -1, 4, 2], 3),
 ]
-
+let s = Solution()
 for c in cases {
-  (treeNode(c.0)!.toString())
+  assert(s.goodNodes(treeNode(c.0)) == c.1, "c: \(c)")
 }
