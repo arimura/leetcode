@@ -42,16 +42,16 @@ public class TreeNode {
   }
 }
 
-func treeNode(_ array: [Int]) -> TreeNode? {
+func treeNode(_ array: [Int?]) -> TreeNode? {
   var a = array
-  var n = TreeNode(a.removeFirst())
+  var n = TreeNode(a.removeFirst()!)
   while a.count != 0 {
     treeNodeAppend(&n, &a)
   }
   return n
 }
 
-func treeNodeAppend(_ n: inout TreeNode, _ array: inout [Int]) {
+func treeNodeAppend(_ n: inout TreeNode, _ array: inout [Int?]) {
   if var l = n.left {
     treeNodeAppend(&l, &array)
   }
@@ -64,14 +64,14 @@ func treeNodeAppend(_ n: inout TreeNode, _ array: inout [Int]) {
       return
     }
     let vl = array.removeFirst()
-    if vl > 0 {
+    if let vl = vl {
       n.left = TreeNode(vl)
     }
     if array.isEmpty {
       return
     }
     let vr = array.removeFirst()
-    if vr > 0 {
+    if let vr = vr {
       n.right = TreeNode(vr)
     }
     n.childAppended = true
