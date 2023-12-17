@@ -15,10 +15,10 @@ class Solution {
     var c = 0
     var newMax = 0
     if m <= n!.val {
-        c += 1
-        newMax = n!.val
-    }else{
-        newMax = m
+      c += 1
+      newMax = n!.val
+    } else {
+      newMax = m
     }
     if n!.left != nil {
       c += traverse(n!.left, newMax)
