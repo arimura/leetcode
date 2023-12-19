@@ -1,7 +1,7 @@
 class Solution {
   func pathSum(_ root: TreeNode?, _ targetSum: Int) -> Int {
     if root == nil {
-        return 0
+      return 0
     }
     return pathSum(root, targetSum, [])
   }
