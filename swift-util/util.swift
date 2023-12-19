@@ -43,6 +43,9 @@ public class TreeNode {
 }
 
 func treeNode(_ array: [Int?]) -> TreeNode? {
+  if array.isEmpty {
+    return nil
+  }
   var a = array
   var n = TreeNode(a.removeFirst()!)
   while a.count != 0 {
