@@ -3,12 +3,12 @@ class Solution {
     var n = root
     while let current = n {
       if current.val == val {
-        return n 
+        return n
       }
       if val <= current.val {
         n = current.left
-      }else {
-      n = current.right
+      } else {
+        n = current.right
       }
     }
     return nil
