@@ -23,20 +23,30 @@ class Solution {
     return root
   }
 
-  func swap(node: TreeNode, prev: TreeNode) {
-    var pad: TreeNode?
-    if node.left != nil {
-      pad = node.left
-    } else {
-      pad = node.right
+  func findGreatest(node: TreeNode?) -> TreeNode? {
+    var n = node
+    while let unwrappedN = n {
+        n = unwrappedN.right
     }
+    return n 
+  } 
 
-    if prev.left!.val == node.val {
-      prev.left = pad
-    } else {
-      prev.right = pad
-    }
-  }
+
+//   func swap(node: TreeNode, prev: TreeNode) {
+//     var pad: TreeNode?
+//     if node.left != nil {
+//       pad = node.left
+//     } else {
+//       pad = node.right
+//     }
+
+//     if prev.left!.val == node.val {
+//       prev.left = pad
+//       pad.left = node.
+//     } else {
+//       prev.right = pad
+//     }
+//   }
 }
 
 let cases = [
