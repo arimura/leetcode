@@ -1,52 +1,75 @@
 class Solution {
   func deleteNode(_ root: TreeNode?, _ key: Int) -> TreeNode? {
-    if root == nil {
-      return nil
+    guard let root = root else {
+        return nil
     }
 
-    var node = root
-    var prev = root
+    if root.right == nil && root.left == nil {
+      if root.val == key {
+        return nil
+      }
+      return root
+    }
+
+    var node :TreeNode? = root
+    var prev :TreeNode? = root
+    var fromPrevRight = true
     while let currentNode = node, let currentPrev = prev {
-        print(currentNode.val)
+    //   print(currentNode.val)
       if currentNode.val == key {
-        swap(node: currentNode, prev: currentPrev)
+        swap(node: currentNode, prev: currentPrev, isPrevRight: fromPrevRight)
         return root
       }
       if key < currentNode.val {
         node = currentNode.left
         prev = currentNode
+        fromPrevRight = false
       } else {
         node = currentNode.right
         prev = currentNode
+        fromPrevRight = true
       }
     }
     return root
   }
 
-  func findGreatest(node: TreeNode?) -> TreeNode? {
-    var n = node
-    while let unwrappedN = n {
-        n = unwrappedN.right
+  func removeGreatestChild(node: TreeNode?) -> TreeNode? {
+    if node?.right == nil {
+        return nil
     }
-    return n 
-  } 
+    var n = node
+    while let grandChild = n?.rigtht?.right {
+        n = 
+    }
+  }
 
+  func swap(node: TreeNode, prev: TreeNode, isPrevRight: Bool) {
+    if node == prev {
+       let greatest = retriveGreatest(node: node.left) 
+       greatest?.right = node.right
+       return
+    }
 
-//   func swap(node: TreeNode, prev: TreeNode) {
-//     var pad: TreeNode?
-//     if node.left != nil {
-//       pad = node.left
-//     } else {
-//       pad = node.right
-//     }
+    if node.left == nil {
+      if node.right == nil {
+        return
+      }
+      if isPrevRight {
+        prev.right = node.right
+      } else {
+        prev.left = node.right
+      }
+      return
+    }
 
-//     if prev.left!.val == node.val {
-//       prev.left = pad
-//       pad.left = node.
-//     } else {
-//       prev.right = pad
-//     }
-//   }
+    let greatest = retriveGreatest(node: node.left)
+    greatest?.right = node.right
+    if isPrevRight {
+      prev.right = greatest
+    } else {
+      prev.left = greatest
+    }
+  }
 }
 
 let cases = [
@@ -56,6 +79,6 @@ let cases = [
 ]
 
 for c in cases {
-    let s = Solution().deleteNode(treeNode(c.0), c.1)
-    print(s?.toString() ?? "Node")
+  let s = Solution().deleteNode(treeNode(c.0), c.1)
+  print(s?.toString() ?? "Node")
 }
