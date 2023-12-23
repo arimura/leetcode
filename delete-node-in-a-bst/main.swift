@@ -1,74 +1,19 @@
 class Solution {
   func deleteNode(_ root: TreeNode?, _ key: Int) -> TreeNode? {
-    guard let root = root else {
-        return nil
-    }
-
-    if root.right == nil && root.left == nil {
-      if root.val == key {
-        return nil
-      }
-      return root
-    }
-
-    var node :TreeNode? = root
-    var prev :TreeNode? = root
-    var fromPrevRight = true
-    while let currentNode = node, let currentPrev = prev {
-    //   print(currentNode.val)
-      if currentNode.val == key {
-        swap(node: currentNode, prev: currentPrev, isPrevRight: fromPrevRight)
-        return root
-      }
-      if key < currentNode.val {
-        node = currentNode.left
-        prev = currentNode
-        fromPrevRight = false
-      } else {
-        node = currentNode.right
-        prev = currentNode
-        fromPrevRight = true
-      }
-    }
-    return root
-  }
-
-  func removeGreatestChild(node: TreeNode?) -> TreeNode? {
-    if node?.right == nil {
-        return nil
-    }
-    var n = node
-    while let grandChild = n?.rigtht?.right {
-        n = 
+    if root.val == key {
+        
     }
   }
 
-  func swap(node: TreeNode, prev: TreeNode, isPrevRight: Bool) {
-    if node == prev {
-       let greatest = retriveGreatest(node: node.left) 
-       greatest?.right = node.right
-       return
+  func removeGreatestChild(_ node: TreeNode?) -> TreeNode {
+    if let r = node?.right {
+        let greatest = removeGreatestChild(r)
+        if greatest == node?.right {
+            node?.right = nil
+        }
+        return greatest
     }
-
-    if node.left == nil {
-      if node.right == nil {
-        return
-      }
-      if isPrevRight {
-        prev.right = node.right
-      } else {
-        prev.left = node.right
-      }
-      return
-    }
-
-    let greatest = retriveGreatest(node: node.left)
-    greatest?.right = node.right
-    if isPrevRight {
-      prev.right = greatest
-    } else {
-      prev.left = greatest
-    }
+    return node
   }
 }
 
