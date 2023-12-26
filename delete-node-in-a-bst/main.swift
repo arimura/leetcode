@@ -1,5 +1,9 @@
 class Solution {
   func deleteNode(_ root: TreeNode?, _ key: Int) -> TreeNode? {
+    if root?.val == key && root?.left == nil && root?.right == nil {
+        return nil
+    }
+
     let preRoot = TreeNode(1_000_000)
     preRoot.left = root
     _ = swap(preRoot, key)
