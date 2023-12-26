@@ -18,17 +18,16 @@ class Solution {
         }
 
         if node.left != nil && node.right == nil {
-          return (true, node.left)
+          let s = removeSmallestChild(node.right)
+          let r = node.right
+          node.right = nil
+          s?.right = r
+          return (true, s)
         }
         let g = removeGreatestChild(node.left)
-        if node.left?.val != g?.val {
-          let l = node.left
-          node.left = nil
-          g?.left = l
-        }
-        let r = node.right
-        node.right = nil
-        g?.right = r
+        let l = node.left
+        node.left = nil
+        g?.left = l
         return (true, g)
       } else if key < node.val {
         let (r, swapped) = swap(node.left, key)
@@ -57,6 +56,17 @@ class Solution {
     }
     return node
   }
+
+  func removeSmallestChild(_ node: TreeNode?) -> TreeNode? {
+    if let l = node?.left {
+      let smallest = removeSmallestChild(l)
+      if smallest === node?.left {
+        node?.left = nil
+      }
+      return smallest
+    }
+    return node
+  }
 }
 
 let cases = [
@@ -66,8 +76,8 @@ let cases = [
   // ([0], 0, []),
   // ([5,3,6,2,4,nil,7],5,[6,3,7,2,4]),
   //   ([5, 3, 6, 2, 4, nil, 7], 3, [])
-//   ([5, 3, 6, 2, 4, nil, 7], 7, [5, 3, 6, 2, 4])
-  ([1,nil,2], 1, [22])
+  //   ([5, 3, 6, 2, 4, nil, 7], 7, [5, 3, 6, 2, 4])
+  ([1, nil, 2], 1, [2])
 ]
 
 for c in cases {
