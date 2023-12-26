@@ -1,7 +1,7 @@
 class Solution {
   func deleteNode(_ root: TreeNode?, _ key: Int) -> TreeNode? {
     if root?.val == key && root?.left == nil && root?.right == nil {
-        return nil
+      return nil
     }
 
     let preRoot = TreeNode(1_000_000)
@@ -10,48 +10,41 @@ class Solution {
     return preRoot.left
   }
 
-  func swap(_ node: TreeNode?, _ key: Int) -> TreeNode? {
+  func swap(_ node: TreeNode?, _ key: Int) -> (Bool, TreeNode?) {
     if let node = node {
       if node.val == key {
         if node.left == nil && node.right == nil {
-          return node
+          return (true, nil)
         }
 
         if node.left != nil && node.right == nil {
-          return node.left
+          return (true, node.left)
         }
-        let g = removeGreatestChild(node.right)
-        g?.left = node.left
-        return g
+        let g = removeGreatestChild(node.left)
+        if node.left?.val != g?.val {
+          let l = node.left
+          node.left = nil
+          g?.left = l
+        }
+        let r = node.right
+        node.right = nil
+        g?.right = r
+        return (true, g)
       } else if key < node.val {
-        let swapped = swap(node.left, key)
-        if let swapped = swapped {
-        //   addMin(swapped, node.left)
+        let (r, swapped) = swap(node.left, key)
+        if r {
           node.left = swapped
         }
-        return nil
+        return (false, nil)
       } else {
-        let swapped = swap(node.right, key)
-        if let swapped = swapped {
-        //   addMin(swapped, node.left)
+        let (r, swapped) = swap(node.right, key)
+        if r {
           node.right = swapped
         }
-        return nil
+        return (false, nil)
       }
     }
-    return nil
-  }
-
-  func addMin(_ node: TreeNode, _ minNode: TreeNode?) {
-    guard let minNode = minNode else {
-      return
-    }
-
-    var n: TreeNode? = node
-    while let unwarapped = n {
-      n = unwarapped.left
-    }
-    n?.left = minNode
+    return (false, nil)
   }
 
   func removeGreatestChild(_ node: TreeNode?) -> TreeNode? {
@@ -67,13 +60,19 @@ class Solution {
 }
 
 let cases = [
-    ([5, 3, 6, 2, 4, nil, 7], 3, [5, 4, 6, 2, nil, nil, 7]),
-    ([5, 3, 6, 2, 4, nil, 7], 0, [5, 3, 6, 2, 4, nil, 7]),
-    ([], 0, []),
-    ([0], 0, []),
+  // ([5, 3, 6, 2, 4, nil, 7], 3, [5, 4, 6, 2, nil, nil, 7]),
+  // ([5, 3, 6, 2, 4, nil, 7], 0, [5, 3, 6, 2, 4, nil, 7]),
+  // ([], 0, []),
+  // ([0], 0, []),
+  // ([5,3,6,2,4,nil,7],5,[6,3,7,2,4]),
+  //   ([5, 3, 6, 2, 4, nil, 7], 3, [])
+//   ([5, 3, 6, 2, 4, nil, 7], 7, [5, 3, 6, 2, 4])
+  ([1,nil,2], 1, [22])
 ]
 
 for c in cases {
-  let s = Solution().deleteNode(treeNode(c.0), c.1)
+  let orgTree = treeNode(c.0)
+  print(orgTree?.toString() ?? "None")
+  let s = Solution().deleteNode(orgTree, c.1)
   print(s?.toString() ?? "None")
 }
