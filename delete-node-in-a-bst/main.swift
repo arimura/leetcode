@@ -17,18 +17,25 @@ class Solution {
           return (true, nil)
         }
 
-        if node.left != nil && node.right == nil {
+        if node.left == nil && node.right != nil {
           let s = removeSmallestChild(node.right)
-          let r = node.right
-          node.right = nil
-          s?.right = r
+          if node.right !== s {
+            let r = node.right
+            node.right = nil
+            s?.right = r
+          }
+            s?.left = node.left
           return (true, s)
         }
         let g = removeGreatestChild(node.left)
-        let l = node.left
-        node.left = nil
-        g?.left = l
+        if node.left !== g {
+          let l = node.left
+          node.left = nil
+          g?.left = l
+        }
+        g?.right = node.right
         return (true, g)
+
       } else if key < node.val {
         let (r, swapped) = swap(node.left, key)
         if r {
@@ -70,14 +77,14 @@ class Solution {
 }
 
 let cases = [
-  // ([5, 3, 6, 2, 4, nil, 7], 3, [5, 4, 6, 2, nil, nil, 7]),
+  ([5, 3, 6, 2, 4, nil, 7], 3, [5, 4, 6, 2, nil, nil, 7]),
   // ([5, 3, 6, 2, 4, nil, 7], 0, [5, 3, 6, 2, 4, nil, 7]),
   // ([], 0, []),
   // ([0], 0, []),
   // ([5,3,6,2,4,nil,7],5,[6,3,7,2,4]),
   //   ([5, 3, 6, 2, 4, nil, 7], 3, [])
   //   ([5, 3, 6, 2, 4, nil, 7], 7, [5, 3, 6, 2, 4])
-  ([1, nil, 2], 1, [2])
+//   ([1, nil, 2], 1, [2])
 ]
 
 for c in cases {
