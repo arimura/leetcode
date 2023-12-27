@@ -80,3 +80,20 @@ func treeNodeAppend(_ n: inout TreeNode, _ array: inout [Int?]) {
     n.childAppended = true
   }
 }
+
+func storeValues(from node: TreeNode?, into list: inout [Int]) {
+  guard let node = node else {
+    return nil
+  }
+  storeValues(from: node.left, into: &list)
+  list.append(node.val)
+  storeValues(from: node.right, into: &list)
+}
+
+func haveSameValues(node1: TreeNode?, node2: TreeNode?) {
+  var v1 = Array<Int>()
+  var v2 = Array<Int>()
+  storeValues(from: node1, into: &v1)
+  storeValues(from: node2, into: &v2)
+  return v1.sorted() == v2.sorted()
+}
