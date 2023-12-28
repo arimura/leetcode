@@ -110,6 +110,7 @@ for c in cases {
   let e = treeNode(c.2)
   let r = haveSameValues(node1: s, node2: e)
   if !r {
+    print(treeNode(c.0)?.toString() ?? "None")
     print(e?.toString() ?? "None")
     print(s?.toString() ?? "None")
     assertionFailure()
