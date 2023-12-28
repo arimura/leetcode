@@ -1,3 +1,5 @@
+import LeetcodeUtil
+
 class Solution {
   func deleteNode(_ root: TreeNode?, _ key: Int) -> TreeNode? {
     if root?.val == key && root?.left == nil && root?.right == nil {
