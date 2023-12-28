@@ -91,8 +91,8 @@ func storeValues(from node: TreeNode?, into list: inout [Int]) {
 }
 
 func haveSameValues(node1: TreeNode?, node2: TreeNode?) {
-  var v1 = Array<Int>()
-  var v2 = Array<Int>()
+  var v1 = [Int]()
+  var v2 = [Int]()
   storeValues(from: node1, into: &v1)
   storeValues(from: node2, into: &v2)
   return v1.sorted() == v2.sorted()

@@ -90,9 +90,18 @@ public func storeValues(from node: TreeNode?, into list: inout [Int]) {
   storeValues(from: node.right, into: &list)
 }
 
+/// Determines if two binary trees represented by their root nodes have the same values.
+///
+/// This function checks if two binary trees, rooted at `node1` and `node2` respectively, contain the same set of values. It does not consider the structure of the trees, only the values contained in them.
+///
+/// - Parameters:
+///   - node1: The root node of the first binary tree. It is an optional TreeNode, which can be `nil` if the tree is empty.
+///   - node2: The root node of the second binary tree. It is an optional TreeNode, which can be `nil` if the tree is empty.
+///
+/// - Returns: A Boolean value. Returns `true` if both trees contain the same set of values regardless of their structure. Returns `false` if they contain different values or if one is empty and the other is not.
 public func haveSameValues(node1: TreeNode?, node2: TreeNode?) -> Bool {
-  var v1 = Array<Int>()
-  var v2 = Array<Int>()
+  var v1 = [Int]()
+  var v2 = [Int]()
   storeValues(from: node1, into: &v1)
   storeValues(from: node2, into: &v2)
   return v1.sorted() == v2.sorted()
