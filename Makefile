@@ -21,6 +21,9 @@ $(SWIFT_LIB_PATH):
 
 swift-util: $(SWIFT_LIB_PATH)
 
+test-swift-util:
+	cd swift-util && swift test	
+
 format-swift:
 	find . -name '*.swift' -exec swift-format -i {} \;
 
