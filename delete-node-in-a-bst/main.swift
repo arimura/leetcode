@@ -24,18 +24,18 @@ class Solution {
           if node.right !== s {
             let r = node.right
             node.right = nil
-            s?.right = r
+            getRightEnd(s)?.right = r
           }
-          s?.left = node.left
           return (true, s)
         }
+
         let g = removeGreatestChild(node.left)
         if node.left !== g {
           let l = node.left
           node.left = nil
-          g?.left = l
+          getLeftEnd(g)?.left = l
         }
-        g?.right = node.right
+        getRightEnd(g)?.right = node.right
         return (true, g)
 
       } else if key < node.val {
@@ -75,6 +75,22 @@ class Solution {
       return smallest
     }
     return node
+  }
+
+  func getLeftEnd(_ node: TreeNode?) -> TreeNode? {
+    var n = node
+    while let l = n?.left {
+      n = l
+    }
+    return n
+  }
+
+  func getRightEnd(_ node: TreeNode?) -> TreeNode? {
+    var n = node
+    while let r = n?.right {
+      n = r
+    }
+    return n
   }
 }
 
