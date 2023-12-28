@@ -13,7 +13,7 @@ run-swift:
 	./swift-answear
 
 run-swift2: $(SWIFT_LIB_PATH)
-	swiftc -L$(SWIFT_LIB_DIR) -l$(SWIFT_LIB_NAME) $(P)/main.swift -o swift-answear
+	swiftc -L$(SWIFT_LIB_DIR) -I$(SWIFT_LIB_DIR) -l$(SWIFT_LIB_NAME) $(P)/main.swift -o swift-answear
 	./swift-answear
 
 $(SWIFT_LIB_PATH):
