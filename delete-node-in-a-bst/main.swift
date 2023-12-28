@@ -79,14 +79,13 @@ class Solution {
 }
 
 let cases = [
-  //   ([5, 3, 6, 2, 4, nil, 7], 3, [5, 4, 6, 2, nil, nil, 7]),
-  // ([5, 3, 6, 2, 4, nil, 7], 0, [5, 3, 6, 2, 4, nil, 7]),
-  // ([], 0, []),
-  // ([0], 0, []),
-  // ([5,3,6,2,4,nil,7],5,[6,3,7,2,4]),
-  //   ([5, 3, 6, 2, 4, nil, 7], 3, [])
-  //   ([5, 3, 6, 2, 4, nil, 7], 7, [5, 3, 6, 2, 4])
-  //   ([1, nil, 2], 1, [2])
+  ([5, 3, 6, 2, 4, nil, 7], 3, [5, 4, 6, 2, nil, nil, 7]),
+  ([5, 3, 6, 2, 4, nil, 7], 0, [5, 3, 6, 2, 4, nil, 7]),
+  ([], 0, []),
+  ([0], 0, []),
+  ([5, 3, 6, 2, 4, nil, 7], 5, [6, 3, 7, 2, 4]),
+  ([5, 3, 6, 2, 4, nil, 7], 7, [5, 3, 6, 2, 4]),
+  ([1, nil, 2], 1, [2]),
   (
     [
       8, 0, 31, nil, 6, 28, 45, 1, 7, 25, 30, 32, 49, nil, 4, nil, nil, 9, 26, 29, nil, nil, 42, 47,
@@ -102,12 +101,17 @@ let cases = [
       nil, 22, 36, 38, 13, 15, 21, 24, 34, nil, nil, 39, nil, nil, nil, 16, nil, nil, 23, nil, nil,
       35, nil, 40, nil, 17,
     ]
-  )
+  ),
 ]
 
 for c in cases {
   let orgTree = treeNode(c.0)
-  print(orgTree?.toString() ?? "None")
   let s = Solution().deleteNode(orgTree, c.1)
-  print(s?.toString() ?? "None")
+  let e = treeNode(c.2)
+  let r = haveSameValues(node1: s, node2: e)
+  if !r {
+    print(e?.toString() ?? "None")
+    print(s?.toString() ?? "None")
+    assertionFailure()
+  }
 }

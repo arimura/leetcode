@@ -1,6 +1,6 @@
 import XCTest
 
-@testable import LeetcodeUtil 
+@testable import LeetcodeUtil
 
 final class swift_utilTests: XCTestCase {
   func testHaveSameValuesWithBothTreesEmpty() {
