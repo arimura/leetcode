@@ -1,44 +1,39 @@
 class Solution {
-  var visited: [[Bool]]?
-  var rowL: Int?
-  var colL: Int?
-  var count: Int?
+  var provinces: [Set<Int>] = []
   func findCircleNum(_ isConnected: [[Int]]) -> Int {
-    rowL =  isConnected.count
-    colL =  isConnected[0].count
-    count = colL * rowL
-    visited = Array(repeating:Array(repeating: false, count:colL), count: rowL)
-  }
 
-  func traverse(_ row: Int, _ col: Int){
-    if visited[row][col] {
-        return
+    for (rowIdx, connectedCitesForCity) in isConnected.enumerated() {
+      for (colIdx, connectedCityForCity) in connectedCitesForCity.enumerated() {
+        if 0 == connectedCityForCity {
+          continue
+        }
+        var inExistingProvince = false
+        for i in 0..<provinces.count {
+          var province = provinces[i]
+          let rowInProvince = province.contains(rowIdx)
+          let colInProvince = province.contains(colIdx)
+          if rowInProvince || colInProvince {
+            province.insert(colIdx)
+            province.insert(rowIdx)
+            inExistingProvince = true
+          }
+          provinces[i] = province
+        }
+        if !inExistingProvince {
+            print(rowIdx)
+            print(colIdx)
+          provinces.append(Set([rowIdx, colIdx]))
+        }
+      }
     }
-    visited[row][col] = true
-    count -= 1
-    
-    //go left
-    if col != 0 {
-        traverse(row, col - 1)
-    }
-    //go right
-    if col < colL - 1 {
-        traverse(row, col + 1)
-    }
-    //go up
-    if row != 0 {
-        traverse(row + 1, col)
-    }
-    //go down
-    if row < rowL - 1 {
-        traverse(row - 1, col)
-    }
+    return provinces.count
   }
 }
 
 let cases = [
-  ([[1, 1, 0], [1, 1, 0], [0, 0, 1]], 2),
-  ([[1, 0, 0], [0, 1, 0], [0, 0, 1]], 3),
+//   ([[1, 1, 0], [1, 1, 0], [0, 0, 1]], 2),
+//   ([[1, 0, 0], [0, 1, 0], [0, 0, 1]], 3),
+  ([[1,0,0,1],[0,1,1,0],[0,1,1,1],[1,0,1,1]], 1),
 ]
 
 for c in cases {
@@ -46,4 +41,3 @@ for c in cases {
   let r = s.findCircleNum(c.0)
   assert(r == c.1, "c: \(c), r:\(r)")
 }
-
