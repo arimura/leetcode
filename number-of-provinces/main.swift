@@ -1,39 +1,34 @@
 class Solution {
   var provinces: [Set<Int>] = []
+  var checked: Set<Int> = Set()
   func findCircleNum(_ isConnected: [[Int]]) -> Int {
 
-    for (rowIdx, connectedCitesForCity) in isConnected.enumerated() {
-      for (colIdx, connectedCityForCity) in connectedCitesForCity.enumerated() {
-        if 0 == connectedCityForCity {
-          continue
-        }
-        var inExistingProvince = false
-        for i in 0..<provinces.count {
-          var province = provinces[i]
-          let rowInProvince = province.contains(rowIdx)
-          let colInProvince = province.contains(colIdx)
-          if rowInProvince || colInProvince {
-            province.insert(colIdx)
-            province.insert(rowIdx)
-            inExistingProvince = true
-          }
-          provinces[i] = province
-        }
-        if !inExistingProvince {
-            print(rowIdx)
-            print(colIdx)
-          provinces.append(Set([rowIdx, colIdx]))
-        }
+    for city in 0..<isConnected.count {
+      if checked.contains(city) {
+        continue
       }
+      provinces.append(connected(city: city, isConnected: isConnected))
     }
     return provinces.count
+  }
+
+  func connected(city: Int, isConnected: [[Int]]) -> Set<Int> {
+    checked.insert(city)
+    var connectedCites = Set<Int>()
+    for (city, val) in isConnected[city].enumerated() {
+      if val == 0 || checked.contains(city) {
+        continue
+      }
+      connectedCites.formUnion(connected(city: city, isConnected: isConnected))
+    }
+    return connectedCites
   }
 }
 
 let cases = [
-//   ([[1, 1, 0], [1, 1, 0], [0, 0, 1]], 2),
-//   ([[1, 0, 0], [0, 1, 0], [0, 0, 1]], 3),
-  ([[1,0,0,1],[0,1,1,0],[0,1,1,1],[1,0,1,1]], 1),
+  ([[1, 1, 0], [1, 1, 0], [0, 0, 1]], 2),
+  ([[1, 0, 0], [0, 1, 0], [0, 0, 1]], 3),
+  ([[1, 0, 0, 1], [0, 1, 1, 0], [0, 1, 1, 1], [1, 0, 1, 1]], 1),
 ]
 
 for c in cases {
