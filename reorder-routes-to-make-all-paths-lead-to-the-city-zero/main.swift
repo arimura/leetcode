@@ -1,39 +1,37 @@
 class Solution {
-  var conList: [[Int]]?
-  func minReorder(_ n: Int, _ connections: [[Int]]) -> Int {
-    conList = connections
-    var nextCities: [(Int, Int)] = [(0, 0)]
-    var checkedCities: [(Int, Int)] = []
+    var matrix: [[Bool]] = []
+    func minReorder(_ n: Int, _ connections: [[Int]]) -> Int {
+        var nextSet: Set<Int> = [0]
+        var reversed = 0
+        for _ in 0...n {
+            matrix.append(Array(repeating: false, count: n))
+        }
+        for c in connections {
+            matrix[c[0]][c[1]] = true
+        }
 
-    while !nextCities.isEmpty {
-      let nextCity = nextCities.removeFirst()
-      let nexts = removeCon(nextCity.0)
+        while nextSet.isEmpty == false {
+          let next = nextSet.removeFirst()
 
-      checkedCities.append(nextCity)
-      nextCities.append(contentsOf: nexts)
+          //direct
+          for (rowI, row) in matrix.enumerated() {
+            if (row[next]){
+                nextSet.insert(rowI)
+                matrix[rowI][next] = false
+            }
+          }
+          //reversed
+          for (colI, cols) in matrix[next].enumerated(){
+            if(cols) {
+                nextSet.insert(colI)
+                reversed += 1
+                matrix[next][colI] = false 
+            }
+          }
+        }
+
+        return reversed 
     }
-
-    print(checkedCities)
-    return checkedCities.reduce(0, { r, e in r + e.1 })
-  }
-
-  func removeCon(_ targetCity: Int) -> [(Int, Int)] {
-    var tmpConList: [[Int]] = []
-    var r: [(Int, Int)] = []
-    for city in conList! {
-      if city[1] == targetCity {
-        r.append((city[0], 0))
-        continue
-      }
-      if city[0] == targetCity {
-        r.append((city[1], 1))
-        continue
-      }
-      tmpConList.append(city)
-    }
-    conList = tmpConList
-    return r
-  }
 }
 
 let cases = [
