@@ -1,7 +1,27 @@
+enum Op {
+  case multiple
+  case divide
+}
+typealias Expression = (op: Op, argVariable: String, argNum: Double)
+typealias VarialbleEquations = [String: [Expression]]
+
 class Solution {
   func calcEquation(_ equations: [[String]], _ values: [Double], _ queries: [[String]]) -> [Double]
   {
+    var dic: VarialbleEquations = [:]
+    for (i, equation) in equations.enumerated() {
+      let first = equation[0]
+      let second = equation[1]
 
+      var firstExpressions = dic[first] ?? []
+      firstExpressions.append((op: Op.multiple, argVariable: second, argNum: values[i]))
+      dic[first] = firstExpressions
+      var secondExpressions = dic[second] ?? []
+      secondExpressions.append((op: Op.divide, argVariable: first, argNum: values[i]))
+      dic[second] = secondExpressions
+    }
+    print(dic)
+    return []
   }
 }
 
@@ -22,6 +42,6 @@ let cases = [
 ]
 let s = Solution()
 for c in cases {
-  let r = c.calcEquation(c.0, c.1, c.2)
+  let r = s.calcEquation(c.0, c.1, c.2)
   assert(r == c.3, "c: \(c), r: \(r)")
 }
