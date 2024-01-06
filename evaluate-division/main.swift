@@ -34,21 +34,37 @@ class Solution {
 
 /// Expand exp1 variable with exp2
 /// - Parameters:
-///   - exp1: 
-///   - exp2: 
-/// - Returns: 
-func expand(exp1: Expression, with exp2: Expression) -> Expression{
-    if exp1.op == .multiple && exp2.op == .multiple {
-        return Expression(op: .multiple, argVariable: exp2.argVariable, argNum: exp1.argNum * exp2.argNum) 
-    }
-    fatalError()
+///   - exp1:
+///   - exp2:
+/// - Returns:
+func expand(exp1: Expression, with exp2: Expression) -> Expression {
+  if exp1.op == .multiple && exp2.op == .multiple {
+    return Expression(
+      op: .multiple, argVariable: exp2.argVariable, argNum: exp1.argNum * exp2.argNum)
+  }
+  if exp1.op == .multiple && exp2.op == .divide {
+    return Expression(
+      op: .multiple, argVariable: exp2.argVariable, argNum: exp1.argNum / exp2.argNum)
+  }
+  if exp1.op == .divide && exp2.op == .multiple {
+    return Expression(
+      op: .multiple, argVariable: exp2.argVariable, argNum: exp2.argNum / exp1.argNum)
+  }
+  fatalError()
 }
 
 let ax2 = Expression(op: Op.multiple, argVariable: "a", argNum: 2.0)
 let bx3 = Expression(op: Op.multiple, argVariable: "b", argNum: 3.0)
-let test1 = expand(exp1: ax2, with: bx3)
-assert(test1 == Expression(op: .multiple, argVariable: "b", argNum: 6.0), "expand test1")
-
+assert(
+  expand(exp1: ax2, with: bx3) == Expression(op: .multiple, argVariable: "b", argNum: 6.0),
+  "expand test1")
+let cDiv3 = Expression(op: .divide, argVariable: "c", argNum: 3.0)
+assert(
+  expand(exp1: Expression(op: .multiple, argVariable:"a", argNum: 6.0), with: cDiv3) == Expression(op: .multiple, argVariable: "c", argNum: 2.0),
+  "expand test2")
+assert(
+  expand(exp1: bx3, with: cDiv3) == Expression(op: .multiple, argVariable: "c", argNum: 0),
+  "expand test3")
 
 let cases = [
   (
