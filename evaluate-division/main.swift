@@ -21,9 +21,34 @@ class Solution {
       dic[second] = secondExpressions
     }
     print(dic)
+    // for query in queries {
+    //   let first = query[0]
+    //   let second = query[1]
+
+    //   //convert first variable
+    // }
+
     return []
   }
 }
+
+/// Expand exp1 variable with exp2
+/// - Parameters:
+///   - exp1: 
+///   - exp2: 
+/// - Returns: 
+func expand(exp1: Expression, with exp2: Expression) -> Expression{
+    if exp1.op == .multiple && exp2.op == .multiple {
+        return Expression(op: .multiple, argVariable: exp2.argVariable, argNum: exp1.argNum * exp2.argNum) 
+    }
+    fatalError()
+}
+
+let ax2 = Expression(op: Op.multiple, argVariable: "a", argNum: 2.0)
+let bx3 = Expression(op: Op.multiple, argVariable: "b", argNum: 3.0)
+let test1 = expand(exp1: ax2, with: bx3)
+assert(test1 == Expression(op: .multiple, argVariable: "b", argNum: 6.0), "expand test1")
+
 
 let cases = [
   (
