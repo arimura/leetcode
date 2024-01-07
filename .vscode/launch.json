@@ -1,0 +1,28 @@
+{
+    "configurations": [
+        {
+            "type": "lldb",
+            "request": "launch",
+            "sourceLanguages": [
+                "swift"
+            ],
+            "args": [],
+            "cwd": "${workspaceFolder:leetcode}/evaluate-division",
+            "name": "Debug evaluate-division (evaluate-division)",
+            "program": "${workspaceFolder:leetcode}/evaluate-division/.build/debug/evaluate-division",
+            "preLaunchTask": "swift: Build Debug evaluate-division (evaluate-division)"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "sourceLanguages": [
+                "swift"
+            ],
+            "args": [],
+            "cwd": "${workspaceFolder:leetcode}/evaluate-division",
+            "name": "Release evaluate-division (evaluate-division)",
+            "program": "${workspaceFolder:leetcode}/evaluate-division/.build/release/evaluate-division",
+            "preLaunchTask": "swift: Build Release evaluate-division (evaluate-division)"
+        }
+    ]
+}
