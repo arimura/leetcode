@@ -11,6 +11,9 @@ run-swift: $(SWIFT_LIB_PATH)
 	swiftc -L$(SWIFT_LIB_DIR) -I$(SWIFT_LIB_DIR) -l$(SWIFT_LIB_NAME) $(P)/main.swift -o swift-answear
 	./swift-answear
 
+run-swift-pm:
+	cd $(P) && swift run
+
 $(SWIFT_LIB_PATH):
 	cd LeetcodeUtil && swift build
 

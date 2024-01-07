@@ -10,6 +10,11 @@
             "label": "run-swift",
             "type": "shell",
             "command": "make run-swift P=${fileDirname}"
+        },
+        {
+            "label": "run-swift-pm",
+            "type": "shell",
+            "command": "make run-swift-pm P=${fileDirname}"
         }
     ]
 }
