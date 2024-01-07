@@ -1,5 +1,5 @@
 P=.
-SWIFT_LIB_DIR=swift-util/.build/x86_64-apple-macosx/debug
+SWIFT_LIB_DIR=LeetcodeUtil/.build/x86_64-apple-macosx/debug
 SWIFT_LIB_NAME=LeetcodeUtil
 SWIFT_LIB_PATH=$(SWIFT_LIB_DIR)/lib$(SWIFT_LIB_NAME).a
 
@@ -12,16 +12,16 @@ run-swift: $(SWIFT_LIB_PATH)
 	./swift-answear
 
 $(SWIFT_LIB_PATH):
-	cd swift-util && swift build
+	cd LeetcodeUtil && swift build
 
 swift-util: $(SWIFT_LIB_PATH)
 
 test-swift-util:
-	cd swift-util && swift test	
+	cd LeetcodeUtil && swift test	
 
 format-swift:
 	find . -name '*.swift' -exec swift-format -i {} \;
 
 clean:
 	rm -rf swift-answear
-	rm -rf swift-util/.build
+	rm -rf LeetcodeUtil/.build
