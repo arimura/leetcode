@@ -50,6 +50,9 @@ func expand(exp1: Expression, with exp2: Expression) -> Expression {
     return Expression(
       op: .multiple, argVariable: exp2.argVariable, argNum: exp2.argNum / exp1.argNum)
   }
+  if exp1.op == .divide && exp2.op == .divide {
+    return Expression(op: .divide, argVariable: exp2.argVariable, argNum: exp1.argNum * exp1.argNum)
+  }
   fatalError()
 }
 
@@ -60,7 +63,8 @@ assert(
   "expand test1")
 let cDiv3 = Expression(op: .divide, argVariable: "c", argNum: 3.0)
 assert(
-  expand(exp1: Expression(op: .multiple, argVariable:"a", argNum: 6.0), with: cDiv3) == Expression(op: .multiple, argVariable: "c", argNum: 2.0),
+  expand(exp1: Expression(op: .multiple, argVariable: "a", argNum: 6.0), with: cDiv3)
+    == Expression(op: .multiple, argVariable: "c", argNum: 2.0),
   "expand test2")
 assert(
   expand(exp1: bx3, with: cDiv3) == Expression(op: .multiple, argVariable: "c", argNum: 0),
