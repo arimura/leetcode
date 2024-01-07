@@ -2,7 +2,16 @@ enum Op {
   case multiple
   case divide
 }
-typealias Expression = (op: Op, argVariable: String, argNum: Double)
+
+/// Expression
+///
+/// - Parameters:
+///   - op: An instance of the `Op` type representing the operation to be performed. 
+///         This could be an enumeration defining operations like addition, subtraction, etc.
+///   - v: A `String` representing a variable in the expression. Typically a symbolic name like "x" or "y".
+///   - n: A `Double` representing a numerical value associated with the expression, such as a coefficient or constant.
+///
+typealias Expression = (op: Op, v: String, n: Double)
 typealias VarialbleEquations = [String: [Expression]]
 
 class Solution {
@@ -14,10 +23,10 @@ class Solution {
       let second = equation[1]
 
       var firstExpressions = dic[first] ?? []
-      firstExpressions.append((op: Op.multiple, argVariable: second, argNum: values[i]))
+      firstExpressions.append((op: Op.multiple, v: second, n: values[i]))
       dic[first] = firstExpressions
       var secondExpressions = dic[second] ?? []
-      secondExpressions.append((op: Op.divide, argVariable: first, argNum: values[i]))
+      secondExpressions.append((op: Op.divide, v: first, n: values[i]))
       dic[second] = secondExpressions
     }
     print(dic)
@@ -40,34 +49,34 @@ class Solution {
 func expand(exp1: Expression, with exp2: Expression) -> Expression {
   if exp1.op == .multiple && exp2.op == .multiple {
     return Expression(
-      op: .multiple, argVariable: exp2.argVariable, argNum: exp1.argNum * exp2.argNum)
+      op: .multiple, v: exp2.v, n: exp1.n * exp2.n)
   }
   if exp1.op == .multiple && exp2.op == .divide {
     return Expression(
-      op: .multiple, argVariable: exp2.argVariable, argNum: exp1.argNum / exp2.argNum)
+      op: .multiple, v: exp2.v, n: exp1.n / exp2.n)
   }
   if exp1.op == .divide && exp2.op == .multiple {
     return Expression(
-      op: .multiple, argVariable: exp2.argVariable, argNum: exp2.argNum / exp1.argNum)
+      op: .multiple, v: exp2.v, n: exp2.n / exp1.n)
   }
   if exp1.op == .divide && exp2.op == .divide {
-    return Expression(op: .divide, argVariable: exp2.argVariable, argNum: exp1.argNum * exp1.argNum)
+    return Expression(op: .divide, v: exp2.v, n: exp1.n * exp1.n)
   }
   fatalError()
 }
 
-let ax2 = Expression(op: Op.multiple, argVariable: "a", argNum: 2.0)
-let bx3 = Expression(op: Op.multiple, argVariable: "b", argNum: 3.0)
+let ax2 = Expression(op: Op.multiple, v: "a", n: 2.0)
+let bx3 = Expression(op: Op.multiple, v: "b", n: 3.0)
 assert(
-  expand(exp1: ax2, with: bx3) == Expression(op: .multiple, argVariable: "b", argNum: 6.0),
+  expand(exp1: ax2, with: bx3) == Expression(op: .multiple, v: "b", n: 6.0),
   "expand test1")
-let cDiv3 = Expression(op: .divide, argVariable: "c", argNum: 3.0)
+let cDiv3 = Expression(op: .divide, v: "c", n: 3.0)
 assert(
-  expand(exp1: Expression(op: .multiple, argVariable: "a", argNum: 6.0), with: cDiv3)
-    == Expression(op: .multiple, argVariable: "c", argNum: 2.0),
+  expand(exp1: Expression(op: .multiple, v: "a", n: 6.0), with: cDiv3)
+    == Expression(op: .multiple, v: "c", n: 2.0),
   "expand test2")
 assert(
-  expand(exp1: bx3, with: cDiv3) == Expression(op: .multiple, argVariable: "c", argNum: 1),
+  expand(exp1: bx3, with: cDiv3) == Expression(op: .multiple, v: "c", n: 1),
   "expand test3")
 
 let cases = [
