@@ -67,7 +67,7 @@ assert(
     == Expression(op: .multiple, argVariable: "c", argNum: 2.0),
   "expand test2")
 assert(
-  expand(exp1: bx3, with: cDiv3) == Expression(op: .multiple, argVariable: "c", argNum: 0),
+  expand(exp1: bx3, with: cDiv3) == Expression(op: .multiple, argVariable: "c", argNum: 1),
   "expand test3")
 
 let cases = [
