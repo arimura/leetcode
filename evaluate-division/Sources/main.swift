@@ -11,8 +11,8 @@ enum Op {
 ///   - v: A `String` representing a variable in the expression. Typically a symbolic name like "x" or "y".
 ///   - n: A `Double` representing a numerical value associated with the expression, such as a coefficient or constant.
 ///
-typealias Expression = (op: Op, v: String, n: Double)
-typealias VarialbleEquations = [String: [Expression]]
+typealias Expr = (op: Op, v: String, n: Double)
+typealias VarialbleEquations = [String: [Expr]]
 
 class Solution {
   func calcEquation(_ equations: [[String]], _ values: [Double], _ queries: [[String]]) -> [Double]
@@ -46,37 +46,37 @@ class Solution {
 ///   - exp1:
 ///   - exp2:
 /// - Returns:
-func expand(exp1: Expression, with exp2: Expression) -> Expression {
+func expand(exp1: Expr, with exp2: Expr) -> Expr {
   if exp1.op == .multiple && exp2.op == .multiple {
-    return Expression(
+    return Expr(
       op: .multiple, v: exp2.v, n: exp1.n * exp2.n)
   }
   if exp1.op == .multiple && exp2.op == .divide {
-    return Expression(
+    return Expr(
       op: .multiple, v: exp2.v, n: exp1.n / exp2.n)
   }
   if exp1.op == .divide && exp2.op == .multiple {
-    return Expression(
+    return Expr(
       op: .multiple, v: exp2.v, n: exp2.n / exp1.n)
   }
   if exp1.op == .divide && exp2.op == .divide {
-    return Expression(op: .divide, v: exp2.v, n: exp1.n * exp1.n)
+    return Expr(op: .divide, v: exp2.v, n: exp1.n * exp1.n)
   }
   fatalError()
 }
 
-let ax2 = Expression(op: Op.multiple, v: "a", n: 2.0)
-let bx3 = Expression(op: Op.multiple, v: "b", n: 3.0)
+let ax2 = Expr(op: Op.multiple, v: "a", n: 2.0)
+let bx3 = Expr(op: Op.multiple, v: "b", n: 3.0)
 assert(
-  expand(exp1: ax2, with: bx3) == Expression(op: .multiple, v: "b", n: 6.0),
+  expand(exp1: ax2, with: bx3) == Expr(op: .multiple, v: "b", n: 6.0),
   "expand test1")
-let cDiv3 = Expression(op: .divide, v: "c", n: 3.0)
+let cDiv3 = Expr(op: .divide, v: "c", n: 3.0)
 assert(
-  expand(exp1: Expression(op: .multiple, v: "a", n: 6.0), with: cDiv3)
-    == Expression(op: .multiple, v: "c", n: 2.0),
+  expand(exp1: Expr(op: .multiple, v: "a", n: 6.0), with: cDiv3)
+    == Expr(op: .multiple, v: "c", n: 2.0),
   "expand test2")
 assert(
-  expand(exp1: bx3, with: cDiv3) == Expression(op: .multiple, v: "c", n: 1),
+  expand(exp1: bx3, with: cDiv3) == Expr(op: .multiple, v: "c", n: 1),
   "expand test3")
 
 let cases = [
