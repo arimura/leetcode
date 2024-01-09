@@ -43,30 +43,24 @@ class Solution {
   }
 }
 
-/// Expand exp1 variable with exp2
-/// - Parameters:
-///   - exp1:
-///   - exp2:
-/// - Returns:
-func expand(exp1: Equation, with exp2: Equation) -> Expr {
-
+func expand(exp1: Equation, with exp2: Equation) -> Equation {
   if exp1.op == .multiple && exp2.op == .multiple {
-    return .equation(
+    return 
       Equation(
-        op: .multiple, v: exp2.v, n: exp1.n * exp2.n))
+        op: .multiple, v: exp2.v, n: exp1.n * exp2.n)
   }
   if exp1.op == .multiple && exp2.op == .divide {
-    return .equation(
+    return 
       Equation(
-        op: .multiple, v: exp2.v, n: exp1.n / exp2.n))
+        op: .multiple, v: exp2.v, n: exp1.n / exp2.n)
   }
   if exp1.op == .divide && exp2.op == .multiple {
-    return .equation(
+    return 
       Equation(
-        op: .multiple, v: exp2.v, n: exp2.n / exp1.n))
+        op: .multiple, v: exp2.v, n: exp2.n / exp1.n)
   }
   if exp1.op == .divide && exp2.op == .divide {
-    return .equation(Equation(op: .divide, v: exp2.v, n: exp1.n * exp1.n))
+    return Equation(op: .divide, v: exp2.v, n: exp1.n * exp1.n)
   }
   fatalError()
 }
