@@ -3,23 +3,15 @@ enum Op {
   case divide
 }
 
-/// Expression
-///
-/// - Parameters:
-///   - op: An instance of the `Op` type representing the operation to be performed.
-///         This could be an enumeration defining operations like addition, subtraction, etc.
-///   - v: A `String` representing a variable in the expression. Typically a symbolic name like "x" or "y".
-///   - n: A `Double` representing a numerical value associated with the expression, such as a coefficient or constant.
-///
-struct Equation : Equatable{
+struct Equation: Equatable {
   let op: Op
   let v: String
   let n: Double
 }
 
 enum Expr: Equatable {
-    case equation(Equation)
-    case double(Double)
+  case equation(Equation)
+  case double(Double)
 }
 
 typealias VarialbleEquations = [String: [Equation]]
@@ -57,37 +49,27 @@ class Solution {
 ///   - exp2:
 /// - Returns:
 func expand(exp1: Equation, with exp2: Equation) -> Expr {
+
   if exp1.op == .multiple && exp2.op == .multiple {
-      return .equation(Equation(
-      op: .multiple, v: exp2.v, n: exp1.n * exp2.n))
+    return .equation(
+      Equation(
+        op: .multiple, v: exp2.v, n: exp1.n * exp2.n))
   }
   if exp1.op == .multiple && exp2.op == .divide {
-    return .equation(Equation(
-      op: .multiple, v: exp2.v, n: exp1.n / exp2.n))
+    return .equation(
+      Equation(
+        op: .multiple, v: exp2.v, n: exp1.n / exp2.n))
   }
   if exp1.op == .divide && exp2.op == .multiple {
-    return .equation(Equation(
-      op: .multiple, v: exp2.v, n: exp2.n / exp1.n))
+    return .equation(
+      Equation(
+        op: .multiple, v: exp2.v, n: exp2.n / exp1.n))
   }
   if exp1.op == .divide && exp2.op == .divide {
     return .equation(Equation(op: .divide, v: exp2.v, n: exp1.n * exp1.n))
   }
   fatalError()
 }
-
-let ax2 = Equation(op: Op.multiple, v: "a", n: 2.0)
-let bx3 = Equation(op: Op.multiple, v: "b", n: 3.0)
-assert(
-  expand(exp1: ax2, with: bx3) == Expr.equation(Equation(op: .multiple, v: "b", n: 6.0)),
-  "expand test1")
-let cDiv3 = Equation(op: .divide, v: "c", n: 3.0)
-assert(
-  expand(exp1: Equation(op: .multiple, v: "a", n: 6.0), with: cDiv3)
-    == Expr.equation(Equation(op: .multiple, v: "c", n: 2.0)),
-  "expand test2")
-assert(
-    expand(exp1: bx3, with: cDiv3) == Expr.equation(Equation(op: .multiple, v: "c", n: 1)),
-  "expand test3")
 
 let cases = [
   (

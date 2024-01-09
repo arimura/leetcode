@@ -19,6 +19,6 @@ let package = Package(
       ]),
     .testTarget(
       name: "LeetcodeUtilTests",
-      dependencies: ["evaluate-division"])
+      dependencies: ["evaluate-division"]),
   ]
 )
