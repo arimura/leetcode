@@ -26,41 +26,42 @@ class Solution {
       secondExpressions.append(Equation(op: Op.divide, v: first, n: values[i]))
       dic[second] = secondExpressions
     }
-    print(dic)
     var answers: [Double] = []
     for query in queries {
       let first = query[0]
       let second = query[1]
 
-      if first == second {
+      if first == second && dic.keys.contains(first) {
         answers.append(1.0)
         continue
       } 
 
       var dicForQ = dic
-      
-      //expand second
-      let eqs = dicForQ.removeValue(forKey: second)
-      guard let eqs = eqs else {
-        answers.append(-1.0)
-        continue
-      }
-      //tmp always first element
-      let eq = eqs[0]
-      if first == eq.v {
-        //calc
-      }else {
-        //substitute
-        
-      }
 
+      var currentEq = Equation(op: .multiple, v:second, n:1)
+      while true {
+        guard let eqs = dicForQ.removeValue(forKey: currentEq.v) else {
+            answers.append(-1) 
+            break
+        }       
+
+        currentEq = substitute(exp1: currentEq, with: eqs[0])
+        if first == currentEq.v {
+          answers.append(1 / currentEq.n)
+          break
+        }
+      }
     }
 
-    return []
+    return answers 
   }
 }
 
-
+/// Substitue var of exp2 with exp2
+/// - Parameters:
+///   - exp1: 
+///   - exp2: 
+/// - Returns: 
 func substitute(exp1: Equation, with exp2: Equation) -> Equation {
   if exp1.op == .multiple && exp2.op == .multiple {
     return 
