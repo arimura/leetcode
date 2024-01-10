@@ -9,11 +9,6 @@ struct Equation: Equatable {
   let n: Double
 }
 
-enum Expr: Equatable {
-  case equation(Equation)
-  case double(Double)
-}
-
 typealias VarialbleEquations = [String: [Equation]]
 
 class Solution {
@@ -32,12 +27,29 @@ class Solution {
       dic[second] = secondExpressions
     }
     print(dic)
-    // for query in queries {
-    //   let first = query[0]
-    //   let second = query[1]
+    var answers: [Double] = []
+    for query in queries {
+      let first = query[0]
+      let second = query[1]
 
-    //   //convert first variable
-    // }
+      if first == second {
+        answers.append(1.0)
+        continue
+      } 
+
+      var dicForQ = dic
+      
+      //expand second
+      let eqs = dicForQ.removeValue(forKey: second)
+      guard let eqs = eqs else {
+        answers.append(-1.0)
+        continue
+      }
+      //tmp always first element
+      let newEq = expand(exp1: Equation(op: .multiple, v: first, n: 1.0), with: eqs[0])
+      
+
+    }
 
     return []
   }
@@ -81,7 +93,7 @@ let cases = [
   ),
 ]
 let s = Solution()
-//for c in cases {
-//  let r = s.calcExpr.equation(Equation(c.0, c.1, c.2)
-//  assert(r == c.3, "c: \(c), r: \(r)")
-//}
+for c in cases {
+ let r = s.calcEquation(c.0, c.1, c.2)
+ assert(r == c.3, "c: \(c), r: \(r)")
+}
