@@ -34,7 +34,7 @@ final class EvaluateDivisionTests: XCTestCase {
 
     // Iterate over each test case
     for (exp1, exp2, expected) in testCases {
-      let result = expand(exp1: exp1, with: exp2)
+      let result = substitute(exp1: exp1, with: exp2)
       XCTAssertEqual(result, expected, "Failed for exp1: \(exp1), exp2: \(exp2)")
     }
   }

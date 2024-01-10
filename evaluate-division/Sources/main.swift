@@ -46,8 +46,13 @@ class Solution {
         continue
       }
       //tmp always first element
-      let newEq = expand(exp1: Equation(op: .multiple, v: first, n: 1.0), with: eqs[0])
-      
+      let eq = eqs[0]
+      if first == eq.v {
+        //calc
+      }else {
+        //substitute
+        
+      }
 
     }
 
@@ -55,7 +60,8 @@ class Solution {
   }
 }
 
-func expand(exp1: Equation, with exp2: Equation) -> Equation {
+
+func substitute(exp1: Equation, with exp2: Equation) -> Equation {
   if exp1.op == .multiple && exp2.op == .multiple {
     return 
       Equation(
