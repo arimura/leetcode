@@ -40,12 +40,17 @@ class Solution {
 
       var currentEq = Equation(op: .multiple, v:second, n:1)
       while true {
-        guard let eqs = dicForQ.removeValue(forKey: currentEq.v) else {
+        guard var eqs = dicForQ.removeValue(forKey: currentEq.v) else {
             answers.append(-1) 
             break
         }       
 
-        currentEq = substitute(exp1: currentEq, with: eqs[0])
+        let eq = eqs.removeFirst()
+        if eqs.count > 0 {
+          dicForQ[currentEq.v] = eqs
+        }
+
+        currentEq = substitute(exp1: currentEq, with: eq)
         if first == currentEq.v {
           answers.append(1 / currentEq.n)
           break
