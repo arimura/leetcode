@@ -25,6 +25,10 @@ test-swift-util:
 format-swift:
 	find . -name '*.swift' -exec swift-format -i {} \;
 
+run-go:
+	cd $(P) && go run main.go
+
+
 clean:
 	rm -rf swift-answear
 	rm -rf LeetcodeUtil/.build
