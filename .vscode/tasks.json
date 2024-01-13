@@ -16,6 +16,12 @@
             "type": "shell",
             "command": "make run-swift-pm P=${fileDirname}",
             "problemMatcher": []
+        },
+        {
+            "label": "run-go",
+            "type": "shell",
+            "command": "make run-go P=${fileDirname}",
+            "problemMatcher": []
         }
     ]
 }
