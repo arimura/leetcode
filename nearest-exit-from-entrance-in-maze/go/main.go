@@ -8,7 +8,12 @@ func nearestExit(maze [][]byte, entrance []int) int {
 }
 
 func main() {
-	cases := []Case{}
+	cases := []Case{
+		{
+			[][]byte{{'+', '+', '.', '+'}, {'.', '.', '.', '+'}, {'+', '+', '+', '.'}},
+			[]int{1, 2},
+		},
+	}
 
 	for _, c := range cases {
 		fmt.Println(c)
