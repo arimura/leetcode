@@ -1,16 +1,27 @@
 package main
 
-import "fmt"
-
 func nearestExit(maze [][]byte, entrance []int) int {
 	counter := make([][]int, len(maze))
 	for i := range counter {
 		counter[i] = make([]int, len(maze[0]))
 	}
-	fmt.Println(counter)
+
+	nexts := make([][]int, 0)
+
+	for len(nexts) > 0 {
+		tmp := make([][]int, 0)
+		for _, next := range nexts {
+			//go up
+            
+
+		}
+	}
+
 	return 0
 }
-
+func update(x int, y int, counter [][]int, maze [][]byte) {
+    if row < 0 || row
+}
 func main() {
 	cases := []Case{
 		{
