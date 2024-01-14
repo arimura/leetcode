@@ -3,7 +3,11 @@ package main
 import "fmt"
 
 func nearestExit(maze [][]byte, entrance []int) int {
-
+	counter := make([][]int, len(maze))
+	for i := range counter {
+		counter[i] = make([]int, len(maze[0]))
+	}
+	fmt.Println(counter)
 	return 0
 }
 
@@ -16,7 +20,7 @@ func main() {
 	}
 
 	for _, c := range cases {
-		fmt.Println(c)
+		nearestExit(c.maze, c.entrance)
 	}
 }
 
