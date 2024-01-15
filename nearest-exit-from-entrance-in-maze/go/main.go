@@ -6,22 +6,37 @@ func nearestExit(maze [][]byte, entrance []int) int {
 		counter[i] = make([]int, len(maze[0]))
 	}
 
-	nexts := make([][]int, 0)
+	positions := make([][]int, 0)
 
-	for len(nexts) > 0 {
-		tmp := make([][]int, 0)
-		for _, next := range nexts {
-			//go up
-            
+	for len(positions) > 0 {
+		position := positions[0]
+		positions = positions[1:]
+		cnt := counter[position[0]][position[1]]
 
+		if update(position[0]-1, position[1], counter, maze, &positions, cnt) ||
+			update(position[0]+1, position[1], counter, maze, &positions, cnt) ||
+			update(position[0], position[1]-1, counter, maze, &positions, cnt) ||
+			update(position[0], position[1]+1, counter, maze, &positions, cnt) {
+			return cnt
 		}
 	}
 
 	return 0
 }
-func update(x int, y int, counter [][]int, maze [][]byte) {
-    if row < 0 || row
+
+func update(row int, col int, counter [][]int, maze [][]byte, nexts *[][]int, cnt int) bool {
+	if row < 0 || len(maze) <= row || col < 0 || len(maze[0]) <= col {
+		return true
+	}
+
+	if maze[row][col] == '+' {
+		return false
+	}
+	counter[row][col] = cnt + 1
+	*nexts = append(*nexts, []int{row, col})
+	return false
 }
+
 func main() {
 	cases := []Case{
 		{
