@@ -3,13 +3,14 @@ package main
 import "fmt"
 
 func nearestExit(maze [][]byte, entrance []int) int {
-	counter := make([][]int, len(maze))
-	for i := range counter {
-		counter[i] = make([]int, len(maze[0]))
+	visited := make([][]bool, len(maze))
+	for i := range visited {
+		visited[i] = make([]bool, len(maze[0]))
 	}
 
 	positions := make([][]int, 0)
 	positions = append(positions, entrance)
+	visited[entrance[0]][entrance[1]] = true
 
 	cnt := 1
 	for true {
@@ -18,10 +19,10 @@ func nearestExit(maze [][]byte, entrance []int) int {
 		}
 		tmpPositions := make([][]int, 0)
 		for _, pos := range positions {
-			if update(pos[0]-1, pos[1], &counter, maze, &tmpPositions, cnt) ||
-				update(pos[0]+1, pos[1], &counter, maze, &tmpPositions, cnt) ||
-				update(pos[0], pos[1]-1, &counter, maze, &tmpPositions, cnt) ||
-				update(pos[0], pos[1]+1, &counter, maze, &tmpPositions, cnt) {
+			if update(pos[0]-1, pos[1], &visited, maze, &tmpPositions, cnt) ||
+				update(pos[0]+1, pos[1], &visited, maze, &tmpPositions, cnt) ||
+				update(pos[0], pos[1]-1, &visited, maze, &tmpPositions, cnt) ||
+				update(pos[0], pos[1]+1, &visited, maze, &tmpPositions, cnt) {
 				return cnt - 1
 			}
 		}
@@ -32,8 +33,7 @@ func nearestExit(maze [][]byte, entrance []int) int {
 	return -1
 }
 
-func update(row int, col int, counter *[][]int, maze [][]byte, nexts *[][]int, cnt int) bool {
-
+func update(row int, col int, visited *[][]bool, maze [][]byte, nexts *[][]int, cnt int) bool {
 	if row < 0 || len(maze) <= row || col < 0 || len(maze[0]) <= col {
 		if cnt == 1 {
 			return false
@@ -41,10 +41,11 @@ func update(row int, col int, counter *[][]int, maze [][]byte, nexts *[][]int, c
 		return true
 	}
 
-	if maze[row][col] == '+' {
+	if maze[row][col] == '+' || (*visited)[row][col] {
 		return false
 	}
-	(*counter)[row][col] = cnt + 1
+
+	(*visited)[row][col] = true
 	*nexts = append(*nexts, []int{row, col})
 	return false
 }
