@@ -7,18 +7,21 @@ func nearestExit(maze [][]byte, entrance []int) int {
 	}
 
 	positions := make([][]int, 0)
+	positions = append(positions, entrance)
 
-	for len(positions) > 0 {
-		position := positions[0]
-		positions = positions[1:]
-		cnt := counter[position[0]][position[1]]
+	for true {
+		tmpPositions := make([][]int, 0)
+		for _, pos := range positions {
+			cnt := counter[pos[0]][pos[1]]
 
-		if update(position[0]-1, position[1], counter, maze, &positions, cnt) ||
-			update(position[0]+1, position[1], counter, maze, &positions, cnt) ||
-			update(position[0], position[1]-1, counter, maze, &positions, cnt) ||
-			update(position[0], position[1]+1, counter, maze, &positions, cnt) {
-			return cnt
+			if update(pos[0]-1, pos[1], counter, maze, &tmpPositions, cnt) ||
+				update(pos[0]+1, pos[1], counter, maze, &tmpPositions, cnt) ||
+				update(pos[0], pos[1]-1, counter, maze, &tmpPositions, cnt) ||
+				update(pos[0], pos[1]+1, counter, maze, &tmpPositions, cnt) {
+				return cnt
+			}
 		}
+		positions = tmpPositions
 	}
 
 	return 0
