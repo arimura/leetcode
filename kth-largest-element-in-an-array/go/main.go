@@ -1,6 +1,7 @@
 package main
 
 import (
+	"container/heap"
 	"fmt"
 )
 
@@ -20,6 +21,28 @@ func (pq ProrityQueue) Swap(i, j int) {
 	pq[i], pq[j] = pq[j], pq[i]
 	pq[i].index = i
 	pq[j].index = j
+}
+func (pq *ProrityQueue) Push(x any) {
+	n := len(*pq)
+	item := x.(*Item)
+	item.index = n
+	*pq = append(*pq, item)
+}
+
+func (pq *ProrityQueue) Pop() any {
+	old := *pq
+	n := len(old)
+	item := old[n-1]
+	old[n-1] = nil
+	item.index = -1
+	*pq = old[0 : n-1]
+	return item
+}
+
+func (pq *ProrityQueue) update(item *Item, value string, priority int) {
+	item.value = value
+	item.priority = priority
+	heap.Fix(pq, item.index)
 }
 
 func findKthLargest(nums []int, k int) int {
