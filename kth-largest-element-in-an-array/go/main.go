@@ -6,7 +6,7 @@ import (
 )
 
 type Item struct {
-	value    string
+	value    int
 	priority int
 	index    int
 }
@@ -39,14 +39,28 @@ func (pq *ProrityQueue) Pop() any {
 	return item
 }
 
-func (pq *ProrityQueue) update(item *Item, value string, priority int) {
+func (pq *ProrityQueue) update(item *Item, value int, priority int) {
 	item.value = value
 	item.priority = priority
 	heap.Fix(pq, item.index)
 }
 
 func findKthLargest(nums []int, k int) int {
+	pq := make(ProrityQueue, len(nums))
+	i := 0
+	for _, x := range nums {
+		pq[i] = &Item{
+			x, x, i,
+		}
+		i++
+	}
+	heap.Init(&pq)
+	var r Item
+	for i := 0; i < k; i++ {
+		r = *(pq.Pop().(*Item))
+	}
 
+	return r.value
 }
 
 func main() {
