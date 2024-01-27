@@ -4,4 +4,5 @@ use (
 	./nearest-exit-from-entrance-in-maze/go
 	./rotting-oranges/go
 	./kth-largest-element-in-an-array/go
+	./house-robber/go
 )
