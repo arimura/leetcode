@@ -3,10 +3,13 @@ package main
 import "fmt"
 
 func rob(nums []int) int {
-	return rec(0, nums)
+	return rec(0, false, nums)
 }
 
-func rec(i int, nums []int) int {
+func rec(i int, prevRob bool, nums []int) int {
+	if prevRob {
+		return rec(i+1, false, nums)
+	}
 	if len(nums) <= i {
 		return 0
 	}
@@ -14,29 +17,20 @@ func rec(i int, nums []int) int {
 		return nums[i]
 	}
 
-	//choose first
-	f := nums[i] + rec(i+2, nums)
-	//choose second
-	s := nums[i+1] + rec(i+3, nums)
-
-	if f < s {
-		return s
+	r := nums[i] + rec(i+1, true, nums)
+	nr := rec(i+1, false, nums)
+	if r < nr {
+		return nr
 	} else {
-		return f
+		return r
 	}
 }
 
 func main() {
-	n := 40
-	nums := make([]int, n)
-	for i := range nums {
-		nums[i] = i % 10
-	}
 
 	cases := []Case{
-		// {[]int{1, 2, 3, 1}, 4},
-		// {[]int{2, 7, 9, 3, 1}, 12},
-		{nums, 50 * (n / 10)},
+		{[]int{1, 2, 3, 1}, 4},
+		{[]int{2, 7, 9, 3, 1}, 12},
 	}
 
 	for _, c := range cases {
