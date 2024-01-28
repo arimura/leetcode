@@ -2,7 +2,18 @@ package main
 
 import "fmt"
 
+var robMemo []int
+var noRobMemo []int
+
 func rob(nums []int) int {
+	robMemo = make([]int, len(nums))
+	for i := range robMemo {
+		robMemo[i] = -1
+	}
+	noRobMemo = make([]int, len(nums))
+	for i := range noRobMemo {
+		noRobMemo[i] = -1
+	}
 	return rec(0, false, nums)
 }
 
