@@ -9,13 +9,13 @@ class Solution {
         dp[n][0] = 1
         for i in (0..<n).reversed() {
             //both empty
-            dp[i][0] = dp[i+1][0] + dp[i+1][1] + dp[i+1][2] + dp[i+1][3]
+            dp[i][0] = (dp[i+1][0] + dp[i+1][1] + dp[i+1][2] + dp[i+1][3]) % 1000000007
             //filled and empty
-            dp[i][1] = dp[i+1][2] + dp[i+1][3]
+            dp[i][1] = (dp[i+1][2] + dp[i+1][3]) % 1000000007 
             //empty an filled
-            dp[i][2] = dp[i+1][1] + dp[i+1][3]
+            dp[i][2] = (dp[i+1][1] + dp[i+1][3]) % 1000000007
             //both filled
-            dp[i][3] = dp[i+1][0]
+            dp[i][3] = (dp[i+1][0]) % 1000000007
         }
         // print(dp)
         return dp[0][0]
@@ -25,6 +25,7 @@ class Solution {
 let cases = [
     (3, 5),
     (1, 1),
+    (30, 312342182),
 ]
 
 for c in cases {
