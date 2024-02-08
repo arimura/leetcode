@@ -3,7 +3,18 @@ package main
 import "fmt"
 
 func uniquePaths(m int, n int) int {
-
+	dp := make([][]int, m+1)
+	for i := 0; i <= m; i++ {
+		dp[i] = make([]int, n+1)
+	}
+	dp[m][n-1] = 1
+	for x := m - 1; 0 <= x; x-- {
+		for y := n - 1; 0 <= y; y-- {
+			dp[x][y] = dp[x+1][y] + dp[x][y+1]
+		}
+	}
+	fmt.Println(dp)
+	return dp[0][0]
 }
 
 func main() {
@@ -11,7 +22,7 @@ func main() {
 		{
 			m:   3,
 			n:   7,
-			out: 27,
+			out: 28,
 		},
 		{
 			m:   3,
