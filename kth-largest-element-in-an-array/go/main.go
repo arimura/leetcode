@@ -2,30 +2,61 @@ package main
 
 import "fmt"
 
-var heap = make([]int, 100000)
+var heap []int
 var size = 0
 
 func findKthLargest(nums []int, k int) int {
+	heap = make([]int, 100001)
+	for i := range heap {
+		heap[i] = 10001
+	}
 	for _, n := range nums {
 		push(n)
 	}
 
-	fmt.Println(heap[:100])
-	return 0
+	r := 0
+	for i := 0; i < len(nums)-k+1; i++ {
+		r = pop()
+	}
+
+	return r
 }
 
 func push(num int) {
+	i := size
 	size++
 
-	for size > 0 {
-		p := (size - 1) / 2
+	for i > 0 {
+		p := (i - 1) / 2
+		// fmt.Printf("num: %d, p: %d, heap[p]: %d\n", num, p, heap[p])
 		if heap[p] <= num {
 			break
 		}
-		heap[size] = heap[p]
-		size = p
+		heap[i] = heap[p]
+		i = p
 	}
-	heap[size] = num
+	heap[i] = num
+}
+
+func pop() int {
+	r := heap[0]
+	size--
+	x := heap[size]
+	i := 0
+	for i*2+1 < size {
+		a := i*2 + 1
+		b := i*2 + 2
+		if b < size && heap[b] < heap[a] {
+			a = b
+		}
+		if heap[a] > x {
+			break
+		}
+		heap[i] = heap[a]
+		i = a
+	}
+	heap[i] = x
+	return r
 }
 
 func main() {
