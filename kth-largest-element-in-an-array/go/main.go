@@ -6,7 +6,7 @@ var heap []int
 var size = 0
 
 func findKthLargest(nums []int, k int) int {
-	heap = make([]int, 100001)
+	heap = make([]int, 1000000)
 	for i := range heap {
 		heap[i] = 10001
 	}
