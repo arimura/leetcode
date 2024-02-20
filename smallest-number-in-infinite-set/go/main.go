@@ -1,6 +1,8 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 type SmallestInfiniteSet struct {
 	heap     [1001]int
@@ -13,7 +15,26 @@ func Constructor() SmallestInfiniteSet {
 }
 
 func (this *SmallestInfiniteSet) PopSmallest() int {
+	r := this.heap[0]
+	this.heap[0] = this.heap[this.heapSize-1]
+	this.heapSize--
+	i := 0
+	for i < this.heapSize {
+		lIdx := i*2 + 1
+		rIdx := i*2 + 2
+		if rIdx < this.heapSize && this.heap[rIdx] < this.heap[lIdx] {
+			lIdx = rIdx
+		}
+		if this.heapSize <= lIdx || this.heap[i] < this.heap[lIdx] {
+			break
+		}
+		t := this.heap[i]
+		this.heap[i] = this.heap[lIdx]
+		this.heap[lIdx] = t
+		i = lIdx
+	}
 
+	return r
 }
 
 func (this *SmallestInfiniteSet) AddBack(num int) {
@@ -37,6 +58,10 @@ func main() {
 	s.AddBack(5)
 	s.AddBack(1)
 	fmt.Println(s.heap[:20])
+	fmt.Println(s.PopSmallest())
+	fmt.Println(s.PopSmallest())
+	fmt.Println(s.PopSmallest())
+	fmt.Println(s.PopSmallest())
 
 	// s := Constructor()
 	// s.AddBack(2)
