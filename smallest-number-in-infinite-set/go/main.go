@@ -13,7 +13,7 @@ func Constructor() SmallestInfiniteSet {
 func (this *SmallestInfiniteSet) PopSmallest() int {
 	r := this.heap[0]
 
-	if this.heapSize == 0 || this.infiniteIdx < r {
+	if this.heapSize == 0 {
 		r = this.infiniteIdx
 		this.infiniteIdx++
 		return r
