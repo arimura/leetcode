@@ -5,4 +5,5 @@ use (
 	./rotting-oranges/go
 	./kth-largest-element-in-an-array/go
 	./house-robber/go
+	./smallest-number-in-infinite-set/go
 )

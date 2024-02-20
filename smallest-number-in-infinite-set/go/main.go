@@ -59,27 +59,7 @@ func (this *SmallestInfiniteSet) AddBack(num int) {
 }
 
 func main() {
-	s := Constructor()
-	s.AddBack(2)
-	if s.PopSmallest() != 1 {
-		panic("not 1")
-	}
-	if s.PopSmallest() != 2 {
-		panic("not 2")
-	}
-	if s.PopSmallest() != 3 {
-		panic("not 3")
-	}
-	s.AddBack(1)
-	if s.PopSmallest() != 1 {
-		panic("not 1")
-	}
-	if s.PopSmallest() != 4 {
-		panic("not 4")
-	}
-	if s.PopSmallest() != 5 {
-		panic("not 5")
-	}
+	runTest("./methods.json", "./arg.json", "./output.json")
 }
 
 /**

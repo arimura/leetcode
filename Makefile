@@ -26,8 +26,7 @@ format-swift:
 	find . -name '*.swift' -exec swift-format -i {} \;
 
 run-go:
-	cd $(P) && go run main.go
-
+	cd $(P) && go run .
 
 clean:
 	rm -rf swift-answear
