@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"os"
 )
@@ -19,6 +20,7 @@ func runTest(methodFilePath string, argFilePath string, outputFilePath string) {
 		case "popSmallest":
 			result := s.PopSmallest()
 			if result != output[i] {
+				fmt.Println(s)
 				log.Fatalf("Expected %v but got %v", output[i], result)
 			}
 		case "addBack":

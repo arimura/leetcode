@@ -3,6 +3,7 @@ package main
 type SmallestInfiniteSet struct {
 	heap        [1001]int
 	heapSize    int
+	heapExisted [1001]bool
 	infiniteIdx int
 }
 
@@ -37,6 +38,8 @@ func (this *SmallestInfiniteSet) PopSmallest() int {
 		i = lIdx
 	}
 
+	this.heapExisted[r] = false
+
 	return r
 }
 
@@ -44,6 +47,11 @@ func (this *SmallestInfiniteSet) AddBack(num int) {
 	if this.infiniteIdx <= num {
 		return
 	}
+
+	if this.heapExisted[num] {
+		return
+	}
+	this.heapExisted[num] = true
 
 	i := this.heapSize
 	this.heapSize++
