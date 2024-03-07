@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 type MinHeap [][]int
 
 func (h MinHeap) Len() int {
@@ -31,19 +33,20 @@ type c struct {
 }
 
 func main() {
-	cases := []c{
-		{
-			[]int{1, 3, 3, 2},
-			[]int{2, 1, 3, 4},
-			3,
-		},
-		{
-			[]int{4, 2, 3, 1, 1},
-			[]int{7, 5, 10, 9, 6},
-			1,
-		},
-	}
-	for _, c := range cases {
+	fmt.Println("hoge")
+	// cases := []c{
+	// 	{
+	// 		[]int{1, 3, 3, 2},
+	// 		[]int{2, 1, 3, 4},
+	// 		3,
+	// 	},
+	// 	{
+	// 		[]int{4, 2, 3, 1, 1},
+	// 		[]int{7, 5, 10, 9, 6},
+	// 		1,
+	// 	},
+	// }
+	// for _, c := range cases {
 
-	}
+	// }
 }
