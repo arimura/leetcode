@@ -1,7 +1,26 @@
 package main
 
-func maxScore(nums1 []int, nums2 []int, k int) int64 {
+type MinHeap [][]int
 
+func (h MinHeap) Len() int {
+	return len(h)
+}
+func (h MinHeap) Less(i, j int) bool {
+	return h[i][0] < h[j][0]
+}
+func (h MinHeap) Swap(i, j int) {
+	h[i], h[j] = h[j], h[i]
+}
+func (h *MinHeap) Push(x interface{}) {
+	*h = append(*h, x.([]int))
+}
+func (h *MinHeap) Pop() interface{} {
+	x := (*h)[len(*h)-1]
+	*h = (*h)[:len(*h)-1]
+	return x
+}
+
+func maxScore(nums1 []int, nums2 []int, k int) int64 {
 	return 0
 }
 
