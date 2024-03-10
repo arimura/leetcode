@@ -56,7 +56,7 @@ func totalCost(costs []int, k int, candidates int) int64 {
 		}
 
 		heap.Push(&mh, node{costs[rightIdx], rightIdx, false})
-		rightIdx++
+		rightIdx--
 	}
 
 	for sessionI := 0; sessionI < k; sessionI++ {
