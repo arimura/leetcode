@@ -1,17 +1,25 @@
 package main
 
-import "fmt"
+import (
+	"container/heap"
+	"fmt"
+)
 
-type MinHeap [][]int
+type node struct {
+	cost   int
+	idx    int
+	isLeft bool
+}
+type MinHeap []node
 
 func (m MinHeap) Len() int {
 	return len(m)
 }
 func (m MinHeap) Less(i, j int) bool {
-	if m[i][0] == m[j][0] {
-		return m[i][1] < m[j][1]
+	if m[i].cost == m[j].cost {
+		return m[i].idx < m[j].idx
 	}
-	return m[i][0] < m[j][0]
+	return m[i].cost < m[j].cost
 }
 
 func (m MinHeap) Swap(i, j int) {
@@ -19,7 +27,7 @@ func (m MinHeap) Swap(i, j int) {
 }
 
 func (m *MinHeap) Push(x any) {
-	*m = append(*m, x.([]int))
+	*m = append(*m, x.(node))
 }
 
 func (m *MinHeap) Pop() any {
@@ -29,13 +37,31 @@ func (m *MinHeap) Pop() any {
 }
 
 func totalCost(costs []int, k int, candidates int) int64 {
-	leftI := 0
-	rightI := len(costs)
+	leftIdx := 0
+	rightIdx := len(costs) - 1
+
+	r := 0
+	mh := MinHeap{}
+
+	for i := 0; i < k; i++ {
+		if leftIdx > rightIdx {
+			break
+		}
+
+		heap.Push(&mh, node{costs[leftIdx], leftIdx, true})
+		leftIdx++
+
+		if leftIdx > rightIdx {
+			break
+		}
+
+		heap.Push(&mh, node{costs[rightIdx], rightIdx, false})
+		rightIdx++
+	}
 
 	for sessionI := 0; sessionI < k; sessionI++ {
 
 	}
-
 }
 
 func main() {
