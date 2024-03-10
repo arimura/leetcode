@@ -7,4 +7,5 @@ use (
 	./house-robber/go
 	./smallest-number-in-infinite-set/go
 	./maximum-subsequence-score/go
+	./total-cost-to-hire-k-workers/go
 )
