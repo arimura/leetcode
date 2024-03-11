@@ -43,7 +43,7 @@ func totalCost(costs []int, k int, candidates int) int64 {
 	r := 0
 	mh := MinHeap{}
 
-	for i := 0; i < k; i++ {
+	for i := 0; i < candidates; i++ {
 		if leftIdx > rightIdx {
 			break
 		}
@@ -58,10 +58,30 @@ func totalCost(costs []int, k int, candidates int) int64 {
 		heap.Push(&mh, node{costs[rightIdx], rightIdx, false})
 		rightIdx--
 	}
+	fmt.Printf("mh: %+v\n", mh)
 
 	for sessionI := 0; sessionI < k; sessionI++ {
+		if mh.Len() == 0 {
+			break
+		}
+		p := heap.Pop(&mh).(node)
+		fmt.Println(p)
+		r += p.cost
 
+		if leftIdx > rightIdx {
+			continue
+		}
+
+		if p.isLeft {
+			heap.Push(&mh, node{costs[leftIdx], leftIdx, true})
+			leftIdx++
+		} else {
+			heap.Push(&mh, node{costs[rightIdx], rightIdx, false})
+			rightIdx--
+		}
 	}
+
+	return int64(r)
 }
 
 func main() {
