@@ -3,7 +3,28 @@ package main
 var pick int
 
 func guessNumber(n int) int {
+	m := n
+	t := n / 2
 
+	for true {
+		g := guess(t)
+		if g == 0 {
+			return t
+		} else if g == -1 {
+			t = t / 2
+			continue
+		}
+		t
+	}
+}
+
+func guess(num int) int {
+	if pick < num {
+		return -1
+	} else if pick > num {
+		return 1
+	}
+	return 0
 }
 
 type TestCase struct {
