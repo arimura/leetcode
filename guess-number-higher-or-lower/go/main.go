@@ -1,21 +1,32 @@
 package main
 
+import "fmt"
+
 var pick int
 
 func guessNumber(n int) int {
-	m := n
-	t := n / 2
-
+	l := 1
+	r := n
+	c := (r - l) / 2
 	for true {
-		g := guess(t)
+		g := guess(c)
 		if g == 0 {
-			return t
+			return c
 		} else if g == -1 {
-			t = t / 2
+			r = c
+			c = (r-l)/2 + l
+			if c == l {
+				return l
+			}
 			continue
 		}
-		t
+		l = c
+		c = (r-l)/2 + l
+		if c == l {
+			return r
+		}
 	}
+	return c
 }
 
 func guess(num int) int {
@@ -51,7 +62,7 @@ func main() {
 		pick = c.pick
 		r := guessNumber(c.n)
 		if r != c.pick {
-			panic(c)
+			panic(fmt.Sprintf("c: %+v, r:%d", c, r))
 		}
 	}
 }
