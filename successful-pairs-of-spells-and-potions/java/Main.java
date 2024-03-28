@@ -1,7 +1,22 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class Main {
     public int[] successfulPairs(int[] spells, int[] potions, long success) {
-        return null;
+        List<Integer> ret = new ArrayList<Integer>();
+        Arrays.sort(potions);
+
+        for (int spell : spells) {
+
+
+        }
+        return ret.stream()
+            .mapToInt(Integer::intValue)
+            .toArray();
     }
+
+    
 
     public static void main(String[] args) {
         TestCase[] cases = new TestCase[]{
