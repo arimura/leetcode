@@ -6,28 +6,47 @@ public class Main {
     public int[] successfulPairs(int[] spells, int[] potions, long success) {
         List<Integer> ret = new ArrayList<Integer>();
         Arrays.sort(potions);
+        int len = potions.length;
 
         for (int spell : spells) {
-
-
+            if(success <= (long)potions[0] * (long)spell){
+                ret.add(len);
+                continue;
+            }
+            if ((long)potions[len-1] * (long)spell < success){
+                ret.add(0);
+                continue;
+            }
+            ret.add(len - find(spell, success, potions, 0, len));
         }
         return ret.stream()
-            .mapToInt(Integer::intValue)
-            .toArray();
+                .mapToInt(Integer::intValue)
+                .toArray();
+    }
+    private int find(int spell, long success, int[] potions, int l, int r){
+        if (l + 1 == r) {
+            return r;
+        }
+        
+        int m = (r - l) / 2 + l;
+        if (success <= ((long)potions[m] * (long)spell)){
+            return find(spell, success, potions, l, m);
+        } else {
+            return find(spell, success, potions, m , r);
+        }
     }
 
-    
-
     public static void main(String[] args) {
-        TestCase[] cases = new TestCase[]{
-            new TestCase(new int[]{5,1,3}, new int[]{1,2,3,4,5}, 7, new int[]{4,0,3})
+        TestCase[] cases = new TestCase[] {
+                new TestCase(new int[] { 5, 1, 3 }, new int[] { 1, 2, 3, 4, 5 }, 7, new int[] { 4, 0, 3 }),
         };
         Main s = new Main();
         for (TestCase testCase : cases) {
-           int[] r = s.successfulPairs(testCase.spells, testCase.getPotions(), testCase.getSuccess());
-           if (!isSame(r, testCase.getExpected())){
-                throw new RuntimeException(testCase.toString()); 
-           }
+            int[] r = s.successfulPairs(testCase.spells, testCase.getPotions(), testCase.getSuccess());
+            System.out.println(Arrays.toString(r));
+            if (!isSame(r, testCase.getExpected())) {
+                throw new RuntimeException(testCase.toString());
+            }
         }
     }
 

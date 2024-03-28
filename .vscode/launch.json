@@ -1,6 +1,13 @@
 {
     "configurations": [
         {
+            "type": "java",
+            "name": "<unnamed_class$main>",
+            "request": "launch",
+            "mainClass": "<unnamed_class$main>",
+            "projectName": "leetcode_c0f6bea7"
+        },
+        {
             "type": "lldb",
             "request": "launch",
             "sourceLanguages": [
