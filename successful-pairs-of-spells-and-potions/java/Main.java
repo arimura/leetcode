@@ -1,17 +1,17 @@
-public class Solution {
+public class Main {
     public int[] successfulPairs(int[] spells, int[] potions, long success) {
-
+        return null;
     }
 
     public static void main(String[] args) {
         TestCase[] cases = new TestCase[]{
             new TestCase(new int[]{5,1,3}, new int[]{1,2,3,4,5}, 7, new int[]{4,0,3})
         };
-        Solution s = new Solution();
+        Main s = new Main();
         for (TestCase testCase : cases) {
-           int[] r = s.successfulPairs(testCase.spells, testCase.getPotions(), testCase.getSuccess())
+           int[] r = s.successfulPairs(testCase.spells, testCase.getPotions(), testCase.getSuccess());
            if (!isSame(r, testCase.getExpected())){
-                throw new Exception(testCase.toString()); 
+                throw new RuntimeException(testCase.toString()); 
            }
         }
     }

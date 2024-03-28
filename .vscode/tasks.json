@@ -18,6 +18,12 @@
             "problemMatcher": []
         },
         {
+            "label": "run-java",
+            "type": "shell",
+            "command": "make run-java P=${fileDirname}",
+            "problemMatcher": []
+        },
+        {
             "label": "run-go",
             "type": "shell",
             "command": "make run-go P=${fileDirname}",
