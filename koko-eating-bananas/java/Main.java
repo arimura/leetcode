@@ -2,6 +2,10 @@ class Main {
     public int minEatingSpeed(int[] piles, int h) {
         int r = Integer.MAX_VALUE;
         int l = 1;
+        if (ok(piles, h, l)){
+            return l;
+        }
+
         int m = 0;
         while (l + 1 != r){
             m = (r - l) / 2 + l;
@@ -16,16 +20,14 @@ class Main {
     }
 
     private boolean ok(int[] piles, int h, int k) {
-        for (int i : piles) {
-            while (true) {
-                h--;
-                if (h < 0) {
-                    return false;
-                }
-                i -= k;
-                if (i <= 0) {
-                    break;
-                }
+        for (int p : piles) {
+            int t = p / k;
+            if (p % k != 0) {
+                t++;
+            }
+            h -= t;
+            if(h < 0) {
+                return false;
             }
         }
 
@@ -34,7 +36,8 @@ class Main {
 
     public static void main(String[] args) {
         TestCase[] cases = new TestCase[] {
-                new TestCase(new int[] { 3, 6, 7, 11 }, 8, 4)
+                // new TestCase(new int[] { 3, 6, 7, 11 }, 8, 4)
+                new TestCase(new int[] { 312884470 }, 968709470, 1)
         };
 
         Main m = new Main();
