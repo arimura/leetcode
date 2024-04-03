@@ -1,3 +1,4 @@
 *.class
 swift-answear
 .DS_Store
+node_modules/
