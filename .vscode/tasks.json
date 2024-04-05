@@ -28,6 +28,12 @@
             "type": "shell",
             "command": "make run-go P=${fileDirname}",
             "problemMatcher": []
+        },
+        {
+            "label": "run-js",
+            "type": "shell",
+            "command": "make run-js P=${fileDirname}",
+            "problemMatcher": []
         }
     ]
 }

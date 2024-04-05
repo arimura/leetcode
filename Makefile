@@ -28,6 +28,9 @@ format-swift:
 run-go:
 	cd $(P) && go run .
 
+run-js:
+	node $(P)/main.js
+
 clean:
 	rm -rf swift-answear
 	rm -rf LeetcodeUtil/.build
