@@ -3,29 +3,29 @@
  * @param {number} n
  * @return {number[][]}
  */
-var combinationSum3 = function(k, n) {
-   find([],0, k, 1,n);
+var combinationSum3 = function (k, n) {
+   var r = [];
+   find([], 0, k, 1, n, r);
    return r;
 };
 
-let r = [];
+var find = function (combi, sum, k, idx, n, r) {
+   for (var i = idx; i <= 9; i++) {
+      const c = [...combi];
+      c.push(i);
+      var updated = sum + i;
 
-const find = function(combi, sum, k, idx, n) {
-   console.log("idx is " + idx);
-   if(combi.length == k) {
-      console.log(combi);
-      if(sum == n){
-         r.push(combi);
+      if (c.length == k) {
+         if (updated == n) {
+            r.push(c);
+         }
+         continue;
       }
-      return ;
+
+      if (i != 9) {
+         find(c, updated, k, i + 1, n, r);
+      }
    }
-
-   combi.push(idx);
-
-   for (i = idx + 1; i <=9; i++){
-      const c = combi.slice();
-      find(c, sum + idx, k, i, n);
-   }   
 }
 
-console.log(combinationSum3(3,9));
+console.log(combinationSum3(3, 9));
