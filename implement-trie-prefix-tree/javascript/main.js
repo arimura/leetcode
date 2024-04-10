@@ -1,6 +1,7 @@
 
 var Trie = function() {
     this.children = {};
+    this.words = {};
 };
 
 /** 
@@ -8,6 +9,11 @@ var Trie = function() {
  * @return {void}
  */
 Trie.prototype.insert = function(word) {
+    this.words[word] = true;
+    this.insertRec(word);
+};
+
+Trie.prototype.insertRec = function(word) {
     var c = word.charAt(0);
     var v = this.children[c];
     if(!v){
@@ -15,25 +21,19 @@ Trie.prototype.insert = function(word) {
         this.children[c] = v;
     }
     if(word.length > 1) {
-        v.insert(word.slice(1));
+        v.insertRec(word.slice(1));
     } 
-};
+}
 
 /** 
  * @param {string} word
  * @return {boolean}
  */
 Trie.prototype.search = function(word) {
-    var c = word.charAt(0);
-    var v = this.children[c];
-    if(!v) {
-        return false;
-    }else {
-        if (word.length > 1){
-            return v.search(word.slice(1));
-        }
+    if(this.words[word]){
         return true;
-    } 
+    }
+    return false;
 };
 
 /** 
@@ -41,7 +41,16 @@ Trie.prototype.search = function(word) {
  * @return {boolean}
  */
 Trie.prototype.startsWith = function(prefix) {
-  return this.search(prefix); 
+    var c = prefix.charAt(0);
+    var v = this.children[c];
+    if(!v) {
+        return false;
+    }else {
+        if (prefix.length > 1){
+            return v.startsWith(prefix.slice(1));
+        }
+        return true;
+    } 
 };
 
 /** 
