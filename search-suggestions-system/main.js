@@ -1,5 +1,6 @@
 const assert = require('assert');
 
+// TODO: lexicographically order
 class Node {
     constructor() {
         this.char = "";
@@ -29,6 +30,13 @@ class Node {
             this.children[nc] = c;
         }
         this.children[nc].load(word.slice(1));
+    }
+
+    findSuggested(word){
+        const r = [];
+        for(let i =0;i<word.length;i++){
+            this.find
+        }
     }
 }
 
