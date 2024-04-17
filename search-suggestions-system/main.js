@@ -11,7 +11,7 @@ class Node {
     loadWords(words) {
         for (const word of words) {
             const c = word[0];
-            if(!this.children[c]){
+            if (!this.children[c]) {
                 this.children[c] = new Node();
             }
             this.children[c].load(word);
@@ -32,11 +32,36 @@ class Node {
         this.children[nc].load(word.slice(1));
     }
 
-    findSuggested(word){
+    findSuggested(word) {
         const r = [];
-        for(let i =0;i<word.length;i++){
-            this.find
+        const n = this.children[word[0]];
+        if (!n) {
+            return [];
         }
+        for (let i = 0; i < word.length; i++) {
+            console.log(word.slice(0, i + 1));
+            r.push(n.find(word.slice(0, i + 1)));
+        }
+        return r;
+    }
+
+    find(word) {
+        console.log("in: " + this.char);
+        const r = [];
+        if (this.isEnd) {
+            r.push(this.char);
+        }
+        if (word.length === 1) {
+            for (const key in this.children) {
+                r.concat(this.children[key].find(" "));
+            }
+            return r;
+        }
+        const nc = word[1];
+        if (this.children[nc]) {
+            r.concat(this.children[nc].find(word.slice(1)));
+        }
+        return r;
     }
 }
 
@@ -46,15 +71,9 @@ class Node {
  * @return {string[][]}
  */
 var suggestedProducts = function (products, searchWord) {
-
-
-    return [];
+    const n = new Node();
+    n.loadWords(products);
+    return n.findSuggested(searchWord);
 };
 
-let n = new Node();
-n.loadWords(["mobile", "mouse", "moneypot", "monitor", "mousepad"]);
-
-
-// assert.strictEqual(suggestedProducts(["mobile", "mouse", "moneypot", "monitor", "mousepad"], "mouse"), []);
-
-
+console.log(suggestedProducts(["mobile", "mouse", "moneypot", "monitor", "mousepad"], "mouse"));
