@@ -33,6 +33,7 @@ class Node {
     }
 
     findSuggested(word) {
+        console.log(JSON.stringify(this));
         const r = [];
         const n = this.children[word[0]];
         if (!n) {
@@ -47,20 +48,27 @@ class Node {
 
     find(word) {
         console.log("in: " + this.char);
-        const r = [];
-        if (this.isEnd) {
-            r.push(this.char);
-        }
+        let r = [];
         if (word.length === 1) {
             for (const key in this.children) {
-                r.concat(this.children[key].find(" "));
+                console.log("len: 1, key: " + key);
+                r = r.concat(this.children[key].find(" "));
+                r = r.map(e => this.char + e);
             }
-            return r;
+        } else {
+            const nc = word[1];
+            if (this.children[nc]) {
+                console.log("nc: " + nc);
+                r = r.concat(this.children[nc].find(word.slice(1)));
+                r = r.map(e => this.char + e);
+                console.log(r);
+            }
         }
-        const nc = word[1];
-        if (this.children[nc]) {
-            r.concat(this.children[nc].find(word.slice(1)));
+        if (this.isEnd) {
+            console.log("push: " + this.char);
+            r.push(this.char);
         }
+        console.log("r :" + r);
         return r;
     }
 }
@@ -76,4 +84,6 @@ var suggestedProducts = function (products, searchWord) {
     return n.findSuggested(searchWord);
 };
 
-console.log(suggestedProducts(["mobile", "mouse", "moneypot", "monitor", "mousepad"], "mouse"));
+const r1 = suggestedProducts(["mobile", "mouse", "moneypot", "monitor", "mousepad"], "mo");
+console.log("===");
+console.log(r1);
