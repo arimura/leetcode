@@ -1,6 +1,5 @@
 const assert = require('assert');
 
-// TODO: lexicographically order
 class Node {
     constructor() {
         this.char = "";
@@ -33,42 +32,41 @@ class Node {
     }
 
     findSuggested(word) {
-        console.log(JSON.stringify(this));
         const r = [];
         const n = this.children[word[0]];
         if (!n) {
-            return [];
+            return word.split("").map(e => []);
         }
         for (let i = 0; i < word.length; i++) {
-            console.log(word.slice(0, i + 1));
-            r.push(n.find(word.slice(0, i + 1)));
+            const sw = word.slice(0, i + 1);
+            const f = n.find(sw);
+            f.sort();
+            r.push(f.slice(0,3));
         }
         return r;
     }
 
     find(word) {
-        console.log("in: " + this.char);
         let r = [];
         if (word.length === 1) {
             for (const key in this.children) {
-                console.log("len: 1, key: " + key);
                 r = r.concat(this.children[key].find(" "));
-                r = r.map(e => this.char + e);
             }
+            r = r.map(e => this.char + e);
         } else {
             const nc = word[1];
             if (this.children[nc]) {
-                console.log("nc: " + nc);
                 r = r.concat(this.children[nc].find(word.slice(1)));
                 r = r.map(e => this.char + e);
-                console.log(r);
             }
+
+            if (r.length === 0 && word.length > 1){
+                return [];
+            } 
         }
         if (this.isEnd) {
-            console.log("push: " + this.char);
             r.push(this.char);
         }
-        console.log("r :" + r);
         return r;
     }
 }
@@ -84,6 +82,6 @@ var suggestedProducts = function (products, searchWord) {
     return n.findSuggested(searchWord);
 };
 
-const r1 = suggestedProducts(["mobile", "mouse", "moneypot", "monitor", "mousepad"], "mo");
+const r1 = suggestedProducts(["mobile", "mouse", "moneypot", "monitor", "mousepad","mou"], "mousea");
 console.log("===");
 console.log(r1);
