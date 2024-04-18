@@ -1,5 +1,3 @@
-const assert = require('assert');
-
 class Node {
     constructor() {
         this.char = "";
@@ -59,12 +57,8 @@ class Node {
                 r = r.concat(this.children[nc].find(word.slice(1)));
                 r = r.map(e => this.char + e);
             }
-
-            if (r.length === 0 && word.length > 1){
-                return [];
-            } 
         }
-        if (this.isEnd) {
+        if (this.isEnd && word.length === 1) {
             r.push(this.char);
         }
         return r;
