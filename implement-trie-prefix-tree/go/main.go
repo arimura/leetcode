@@ -123,3 +123,10 @@ func (d *dartsBuild) fetch(parent node) []node {
 	}
 	return siblings
 }
+
+func max(a, b int) int {
+	if a > b {
+		return a
+	}
+	return b
+}
