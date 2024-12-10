@@ -9,6 +9,24 @@ var next []int
 var check []int
 var currnt int
 
+var ckey = []rune{
+	'a',
+	'c',
+	'd',
+	'e',
+	'g',
+	'i',
+	'l',
+	'o',
+	'p',
+	'r',
+	's',
+	'u',
+	'v',
+	'w',
+	'z',
+}
+
 func walk(s, c int) {
 	t := base[s] + c
 	if check[t] == s {
