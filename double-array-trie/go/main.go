@@ -36,6 +36,11 @@ func walk(s, c int) {
 	}
 }
 
+func simpleInsert() {
+	//start from root node
+	//s = 0
+}
+
 func relocate(state int, baseIndex int) {
 
 }
