@@ -41,6 +41,8 @@ func simpleInsert() {
 	//s = 0
 }
 
+// state: each state is a node in the trie and is represented by an integer
+// baseIndex:  For a trie node s, base[s] is the starting index within the next and check pool (to be explained later) for the row of the node s in the transition table.
 func relocate(state int, baseIndex int) {
 
 }
