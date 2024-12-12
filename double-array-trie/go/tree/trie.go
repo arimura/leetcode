@@ -1,7 +1,5 @@
 package three
 
-import "fmt"
-
 // Based on https://linux.thai.net/~thep/datrie/datrie.html
 // three array trie
 var base []int
@@ -34,12 +32,14 @@ var transition = [][]rune{
 	{'o'},
 }
 
-func walk(s, c int) {
+// walk from state:s by character:c
+// return (success, next state)
+func walk(s, c int) (bool, int) {
 	t := base[s] + c
 	if check[t] == s {
-		currnt = next[t]
+		return true, next[t]
 	} else {
-		panic(fmt.Sprintf("t: %d isn't in check\n", t))
+		return false, 0
 	}
 }
 

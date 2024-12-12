@@ -18,3 +18,7 @@ func TestRelocate(t *testing.T) {
 	t.Logf("next: %v", next)
 	t.Logf("check: %v", check)
 }
+
+func TestWalk(t *testing.T) {
+
+}
