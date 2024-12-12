@@ -9,12 +9,13 @@ func TestRelocate(t *testing.T) {
 	tr.insert(1, 1, 'p', 2)
 	tr.insert(2, 2, 'o', 3)
 
-	assertWalk(1, 'p', true, 2, tr, t)
-	// assertWalk(2, 'o', true, 3, tr, t)
-
 	t.Logf("base: %v", tr.base)
 	t.Logf("next: %v", tr.next)
 	t.Logf("check: %v", tr.check)
+
+	assertWalk(1, 'p', true, 2, tr, t)
+	// assertWalk(2, 'o', true, 3, tr, t)
+
 }
 
 func assertWalk(s int, c rune, r bool, n int, tr *ThreeArrayTrie, t *testing.T) {
