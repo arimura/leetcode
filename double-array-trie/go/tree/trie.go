@@ -54,15 +54,19 @@ func (x *ThreeArrayTrie) walk(s int, c rune) (bool, int) {
 	}
 }
 
-func (x *ThreeArrayTrie) insert(s int, b int, c rune, n int) {
+func (x *ThreeArrayTrie) insertTransitions() {
+
+}
+
+func (x *ThreeArrayTrie) insert(s int, b int, c rune, n int) bool {
 	x.base[s] = b
 	if x.next[b+keyMap[c]] == 0 {
 		x.next[b+keyMap[c]] = n
 		x.check[b+keyMap[c]] = s
+		return true
 	} else {
-		panic("need relocate")
+		return false
 	}
-
 }
 
 // s: state. each state is a node in the trie and is represented by an integer
