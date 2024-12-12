@@ -5,18 +5,12 @@ import (
 )
 
 func TestRelocate(t *testing.T) {
-	// Initialize the trie with some values
-	c := 30
-	base = make([]int, c)
-	next = make([]int, c)
-	check = make([]int, c)
+	tr := New(30)
+	tr.relocate(1, 1)
 
-	// Test case: Relocate node
-	relocate(1, 1)
-
-	t.Logf("base: %v", base)
-	t.Logf("next: %v", next)
-	t.Logf("check: %v", check)
+	t.Logf("base: %v", tr.base)
+	t.Logf("next: %v", tr.next)
+	t.Logf("check: %v", tr.check)
 }
 
 func TestWalk(t *testing.T) {

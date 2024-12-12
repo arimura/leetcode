@@ -2,10 +2,12 @@ package three
 
 // Based on https://linux.thai.net/~thep/datrie/datrie.html
 // three array trie
-var base []int
-var next []int
-var check []int
-var currnt int
+
+type ThreeArrayTrie struct {
+	base  []int
+	next  []int
+	check []int
+}
 
 var keyMap = map[rune]int{
 	'a': 0,
@@ -32,30 +34,34 @@ var transition = [][]rune{
 	{'o'},
 }
 
+func New(c int) *ThreeArrayTrie {
+	t := &ThreeArrayTrie{
+		base:  make([]int, c),
+		next:  make([]int, c),
+		check: make([]int, c),
+	}
+	return t
+}
+
 // walk from state:s by character:c
 // return (success, next state)
-func walk(s, c int) (bool, int) {
-	t := base[s] + c
-	if check[t] == s {
-		return true, next[t]
+func (x *ThreeArrayTrie) walk(s, c int) (bool, int) {
+	t := x.base[s] + c
+	if x.check[t] == s {
+		return true, x.next[t]
 	} else {
 		return false, 0
 	}
 }
 
-func simpleInsert() {
-	//start from root node
-	//s = 0
-}
-
 // s: state. each state is a node in the trie and is represented by an integer
 // b: baseIndex. For a trie node s, base[s] is the starting index within the next and check pool (to be explained later) for the row of the node s in the transition table.
-func relocate(s int, b int) {
+func (x *ThreeArrayTrie) relocate(s int, b int) {
 	for _, ck := range transition[s] {
 		c := keyMap[ck]
-		check[b+c] = s
-		next[b+c] = next[base[s]+c]
-		check[base[s]+c] = 0
+		x.check[b+c] = s
+		x.next[b+c] = x.next[x.base[s]+c]
+		x.check[x.base[s]+c] = 0
 	}
-	base[s] = b
+	x.base[s] = b
 }
