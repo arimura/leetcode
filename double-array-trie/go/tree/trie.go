@@ -45,8 +45,8 @@ func New(c int) *ThreeArrayTrie {
 
 // walk from state:s by character:c
 // return (success, next state)
-func (x *ThreeArrayTrie) walk(s, c int) (bool, int) {
-	t := x.base[s] + c
+func (x *ThreeArrayTrie) walk(s int, c rune) (bool, int) {
+	t := x.base[s] + keyMap[c]
 	if x.check[t] == s {
 		return true, x.next[t]
 	} else {
