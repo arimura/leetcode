@@ -6,8 +6,7 @@ import (
 
 func TestRelocate(t *testing.T) {
 	tr := New(30)
-	tr.relocate(1, 1)
-	// tr.relocate(2, 2)
+	tr.insert(1, 1, 'p', 2)
 
 	r, n := tr.walk(1, 'p')
 	if !r {

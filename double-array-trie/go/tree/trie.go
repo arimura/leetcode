@@ -43,6 +43,12 @@ func New(c int) *ThreeArrayTrie {
 	return t
 }
 
+func (x *ThreeArrayTrie) insert(s int, b int, c rune, n int) {
+	x.base[s] = b
+	x.next[b+keyMap[c]] = n
+	x.check[b+keyMap[c]] = s
+}
+
 // walk from state:s by character:c
 // return (success, next state)
 func (x *ThreeArrayTrie) walk(s int, c rune) (bool, int) {
