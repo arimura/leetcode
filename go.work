@@ -1,11 +1,12 @@
 go 1.21.6
 
 use (
+	./double-array-trie/go
+	./house-robber/go
+	./kth-largest-element-in-an-array/go
+	./maximum-subsequence-score/go
 	./nearest-exit-from-entrance-in-maze/go
 	./rotting-oranges/go
-	./kth-largest-element-in-an-array/go
-	./house-robber/go
 	./smallest-number-in-infinite-set/go
-	./maximum-subsequence-score/go
 	./total-cost-to-hire-k-workers/go
 )
