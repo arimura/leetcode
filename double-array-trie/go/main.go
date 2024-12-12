@@ -10,21 +10,28 @@ var check []int
 var currnt int
 
 var ckey = []rune{
-	'a',
-	'c',
-	'd',
-	'e',
-	'g',
-	'i',
-	'l',
-	'o',
-	'p',
-	'r',
-	's',
-	'u',
-	'v',
-	'w',
-	'z',
+	'a', //0
+	'c', //1
+	'd', //2
+	'e', //3
+	'g', //4
+	'i', //5
+	'l', //6
+	'o', //7
+	'p', //8
+	'r', //9
+	's', //10
+	'u', //11
+	'v', //12
+	'w', //13
+	'z', //14
+}
+
+var transition = [][]rune{
+	{},  //not used
+	{8}, //root node
+	{7, 9},
+	{7},
 }
 
 func walk(s, c int) {
@@ -44,5 +51,4 @@ func simpleInsert() {
 // state: each state is a node in the trie and is represented by an integer
 // baseIndex:  For a trie node s, base[s] is the starting index within the next and check pool (to be explained later) for the row of the node s in the transition table.
 func relocate(state int, baseIndex int) {
-
 }
