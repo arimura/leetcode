@@ -78,10 +78,10 @@ func (x *ThreeArrayTrie) available(s int, b int, c rune) bool {
 	if x.base[s] != 0 {
 		return false
 	}
-	if x.next[x.base[b]+keyMap[c]] != 0 {
+	if x.next[b+keyMap[c]] != 0 {
 		return false
 	}
-	if x.check[x.base[b]+keyMap[c]] != 0 {
+	if x.check[b+keyMap[c]] != 0 {
 		return false
 	}
 	return true

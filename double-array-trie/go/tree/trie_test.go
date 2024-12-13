@@ -11,6 +11,10 @@ func TestRelocate(t *testing.T) {
 	if !r {
 		t.Fatalf("failed to insert s: %d, b: %d", 1, 1)
 	}
+	r = tr.insertTransitions(2, 2, &[]transition{{next: 3, c: 'o'}})
+	if !r {
+		t.Fatalf("failed to insert s: %d, b: %d", 2, 2)
+	}
 
 	t.Logf("base: %v", tr.base)
 	t.Logf("next: %v", tr.next)
