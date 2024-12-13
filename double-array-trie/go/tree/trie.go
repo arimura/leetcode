@@ -4,9 +4,10 @@ package three
 // three array trie
 
 type ThreeArrayTrie struct {
-	base  []int
-	next  []int
-	check []int
+	capacity int
+	base     []int
+	next     []int
+	check    []int
 }
 
 var keyMap = map[rune]int{
@@ -36,9 +37,10 @@ var keyMap = map[rune]int{
 
 func New(c int) *ThreeArrayTrie {
 	t := &ThreeArrayTrie{
-		base:  make([]int, c),
-		next:  make([]int, c),
-		check: make([]int, c),
+		capacity: c,
+		base:     make([]int, c),
+		next:     make([]int, c),
+		check:    make([]int, c),
 	}
 	return t
 }
@@ -60,11 +62,24 @@ type transition struct {
 }
 
 func (x *ThreeArrayTrie) insertTransitions(s, b int, ts *[]transition) bool {
-	for _, t := range *ts {
-		if !x.available(s, b, t.c) {
-			return false
+	canInsert := false
+	for i := b; i < x.capacity; i++ {
+		canInsert = true
+		for _, t := range *ts {
+			if !x.available(s, i, t.c) {
+				canInsert = false
+				break
+			}
+		}
+		if canInsert {
+			b = i
+			break
 		}
 	}
+	if !canInsert {
+		return false
+	}
+
 	for _, t := range *ts {
 		r := x.insert(s, b, t.c, t.next)
 		if !r {
