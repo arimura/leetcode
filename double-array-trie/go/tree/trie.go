@@ -27,12 +27,12 @@ var keyMap = map[rune]int{
 	'z': 14,
 }
 
-var transition = [][]rune{
-	{},    //not used
-	{'p'}, //root node
-	{'r', 'o'},
-	{'o'},
-}
+// var transition = [][]rune{
+// 	{},    //not used
+// 	{'p'}, //root node
+// 	{'r', 'o'},
+// 	{'o'},
+// }
 
 func New(c int) *ThreeArrayTrie {
 	t := &ThreeArrayTrie{
@@ -54,8 +54,37 @@ func (x *ThreeArrayTrie) walk(s int, c rune) (bool, int) {
 	}
 }
 
-func (x *ThreeArrayTrie) insertTransitions() {
+type transition struct {
+	next int
+	c    rune
+}
 
+func (x *ThreeArrayTrie) insertTransitions(s, b int, ts *[]transition) bool {
+	for _, t := range *ts {
+		if !x.available(s, b, t.c) {
+			return false
+		}
+	}
+	for _, t := range *ts {
+		r := x.insert(s, b, t.c, t.next)
+		if !r {
+			panic("Unexpected insert")
+		}
+	}
+	return true
+}
+
+func (x *ThreeArrayTrie) available(s int, b int, c rune) bool {
+	if x.base[s] != 0 {
+		return false
+	}
+	if x.next[x.base[b]+keyMap[c]] != 0 {
+		return false
+	}
+	if x.check[x.base[b]+keyMap[c]] != 0 {
+		return false
+	}
+	return true
 }
 
 func (x *ThreeArrayTrie) insert(s int, b int, c rune, n int) bool {
@@ -71,12 +100,12 @@ func (x *ThreeArrayTrie) insert(s int, b int, c rune, n int) bool {
 
 // s: state. each state is a node in the trie and is represented by an integer
 // b: baseIndex. For a trie node s, base[s] is the starting index within the next and check pool (to be explained later) for the row of the node s in the transition table.
-func (x *ThreeArrayTrie) relocate(s int, b int) {
-	for _, ck := range transition[s] {
-		c := keyMap[ck]
-		x.check[b+c] = s
-		x.next[b+c] = x.next[x.base[s]+c]
-		x.check[x.base[s]+c] = 0
-	}
-	x.base[s] = b
-}
+// func (x *ThreeArrayTrie) relocate(s int, b int) {
+// 	for _, ck := range transition[s] {
+// 		c := keyMap[ck]
+// 		x.check[b+c] = s
+// 		x.next[b+c] = x.next[x.base[s]+c]
+// 		x.check[x.base[s]+c] = 0
+// 	}
+// 	x.base[s] = b
+// }
