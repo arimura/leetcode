@@ -24,14 +24,14 @@ func TestRelocate(t *testing.T) {
 	assertWalk(2, 'r', true, 6, tr, t)
 }
 
-func assertInsert(s, b int, ts *[]transition, er bool, tr *ThreeArrayTrie, t *testing.T) {
+func assertInsert(s, b int, ts *[]transition, er bool, tr *TrippleArrayTrie, t *testing.T) {
 	ar := tr.insertTransitions(s, b, ts)
 	if ar != er {
 		t.Fatalf("failed to insert s: %d, b: %d", s, b)
 	}
 }
 
-func assertWalk(s int, c rune, r bool, n int, tr *ThreeArrayTrie, t *testing.T) {
+func assertWalk(s int, c rune, r bool, n int, tr *TrippleArrayTrie, t *testing.T) {
 	ar, an := tr.walk(s, c)
 	if ar != r || an != n {
 		t.Fatalf("failed to walk s: %d, c: %c, r: %t, n: %d, ar: %t, an: %d", s, c, r, n, ar, an)

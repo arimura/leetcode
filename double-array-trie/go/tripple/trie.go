@@ -3,7 +3,7 @@ package tripple
 // Based on https://linux.thai.net/~thep/datrie/datrie.html
 // three array trie
 
-type ThreeArrayTrie struct {
+type TrippleArrayTrie struct {
 	capacity int
 	base     []int
 	next     []int
@@ -35,8 +35,8 @@ var keyMap = map[rune]int{
 // 	{'o'},
 // }
 
-func New(c int) *ThreeArrayTrie {
-	t := &ThreeArrayTrie{
+func New(c int) *TrippleArrayTrie {
+	t := &TrippleArrayTrie{
 		capacity: c,
 		base:     make([]int, c),
 		next:     make([]int, c),
@@ -47,7 +47,7 @@ func New(c int) *ThreeArrayTrie {
 
 // walk from state:s by character:c
 // return (success, next state)
-func (x *ThreeArrayTrie) walk(s int, c rune) (bool, int) {
+func (x *TrippleArrayTrie) walk(s int, c rune) (bool, int) {
 	t := x.base[s] + keyMap[c]
 	if x.check[t] == s {
 		return true, x.next[t]
@@ -61,7 +61,7 @@ type transition struct {
 	c    rune
 }
 
-func (x *ThreeArrayTrie) insertTransitions(s, b int, ts *[]transition) bool {
+func (x *TrippleArrayTrie) insertTransitions(s, b int, ts *[]transition) bool {
 	canInsert := false
 	for i := b; i < x.capacity; i++ {
 		canInsert = true
@@ -89,7 +89,7 @@ func (x *ThreeArrayTrie) insertTransitions(s, b int, ts *[]transition) bool {
 	return true
 }
 
-func (x *ThreeArrayTrie) available(s int, b int, c rune) bool {
+func (x *TrippleArrayTrie) available(s int, b int, c rune) bool {
 	if x.base[s] != 0 {
 		return false
 	}
@@ -102,7 +102,7 @@ func (x *ThreeArrayTrie) available(s int, b int, c rune) bool {
 	return true
 }
 
-func (x *ThreeArrayTrie) insert(s int, b int, c rune, n int) bool {
+func (x *TrippleArrayTrie) insert(s int, b int, c rune, n int) bool {
 	x.base[s] = b
 	if x.next[b+keyMap[c]] == 0 {
 		x.next[b+keyMap[c]] = n
