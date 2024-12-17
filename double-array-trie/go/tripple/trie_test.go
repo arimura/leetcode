@@ -1,4 +1,4 @@
-package three
+package tripple
 
 import (
 	"testing"

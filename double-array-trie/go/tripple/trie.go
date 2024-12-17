@@ -1,4 +1,4 @@
-package three
+package tripple
 
 // Based on https://linux.thai.net/~thep/datrie/datrie.html
 // three array trie
