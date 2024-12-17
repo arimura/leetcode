@@ -89,6 +89,19 @@ func (x *TrippleArrayTrie) insertTransitions(s, b int, ts *[]transition) bool {
 	return true
 }
 
+func (x *TrippleArrayTrie) relocate(s, b int) {
+	beRelocated := make([]int, 0)
+	for _, c := range keyMap {
+		if x.check[x.base[s]+c] == s {
+			beRelocated = append(beRelocated, c)
+		}
+	}
+	for _, c := range beRelocated {
+		x.check[b+c] = s
+		//TO be implemented
+	}
+}
+
 func (x *TrippleArrayTrie) available(s int, b int, c rune) bool {
 	if x.base[s] != 0 {
 		return false
