@@ -98,8 +98,10 @@ func (x *TrippleArrayTrie) relocate(s, b int) {
 	}
 	for _, c := range beRelocated {
 		x.check[b+c] = s
-		//TO be implemented
+		x.next[b+c] = x.next[x.base[s]+c]
+		x.check[x.base[s]+c] = 0
 	}
+	x.base[s] = b
 }
 
 func (x *TrippleArrayTrie) available(s int, b int, c rune) bool {
