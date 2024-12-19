@@ -89,12 +89,6 @@ func (x *TrippleArrayTrie) insertTransitions(s, b int, ts *[]transition) bool {
 	return true
 }
 
-func (x *TrippleArrayTrie) insertTransitions2(s, b int, ts *[]transition) bool {
-	for _, t := range *ts {
-		x.insert(s, b, t.c, t.next)
-	}
-}
-
 func (x *TrippleArrayTrie) relocate(s, b int) {
 	beRelocated := make([]int, 0)
 	for _, c := range keyMap {
