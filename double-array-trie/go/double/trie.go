@@ -37,3 +37,35 @@ func New(c int) *DoubleArrayTrie {
 	}
 	return t
 }
+
+// walk from state:s by character:c
+// return (success, next state)
+func (x *DoubleArrayTrie) walk(s int, c rune) (bool, int) {
+	t := x.base[s] + keyMap[c]
+	if x.check[t] == s {
+		return true, t
+	} else {
+		return false, 0
+	}
+}
+
+func (x *DoubleArrayTrie) available(s int, b int, c rune) bool {
+	if x.base[s] != 0 {
+		return false
+	}
+	if x.check[b+keyMap[c]] != 0 {
+		return false
+	}
+	return true
+}
+
+// func (x *DoubleArrayTrie) insert(s int, b int, c rune, n int) bool {
+// 	x.base[s] = b
+// 	if x.next[b+keyMap[c]] == 0 {
+// 		x.next[b+keyMap[c]] = n
+// 		x.check[b+keyMap[c]] = s
+// 		return true
+// 	} else {
+// 		return false
+// 	}
+// }
