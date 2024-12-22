@@ -59,13 +59,11 @@ func (x *DoubleArrayTrie) available(s int, b int, c rune) bool {
 	return true
 }
 
-// func (x *DoubleArrayTrie) insert(s int, b int, c rune, n int) bool {
-// 	x.base[s] = b
-// 	if x.next[b+keyMap[c]] == 0 {
-// 		x.next[b+keyMap[c]] = n
-// 		x.check[b+keyMap[c]] = s
-// 		return true
-// 	} else {
-// 		return false
-// 	}
-// }
+func (x *DoubleArrayTrie) insert(s int, b int, c rune, n int) bool {
+	if !x.available(s, b, c) {
+		return false
+	}
+	x.base[s] = b
+	x.check[x.base[s]+keyMap[c]] = s
+	return true
+}
