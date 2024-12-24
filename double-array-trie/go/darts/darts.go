@@ -62,3 +62,15 @@ func Build(key [][]rune, freq []int) Darts {
 	}
 	return d.darts
 }
+
+func (d *dartsBuild) resize(newSize int) {
+	if newSize > cap(d.darts.Base) {
+		d.darts.Base = append(d.darts.Base, make([]int, (newSize-len(d.darts.Base)))...)
+		d.darts.Check = append(d.darts.Check, make([]int, (newSize-len(d.darts.Check)))...)
+		d.used = append(d.used, make([]bool, (newSize-len(d.used)))...)
+	} else {
+		d.darts.Base = d.darts.Base[:newSize]
+		d.darts.Check = d.darts.Check[:newSize]
+		d.used = d.used[:newSize]
+	}
+}
