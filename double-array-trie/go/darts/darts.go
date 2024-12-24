@@ -1,5 +1,7 @@
 package darts
 
+import "fmt"
+
 //https://github.com/awsong/go-darts/blob/master/darts.go
 
 type node struct {
@@ -73,4 +75,51 @@ func (d *dartsBuild) resize(newSize int) {
 		d.darts.Check = d.darts.Check[:newSize]
 		d.used = d.used[:newSize]
 	}
+}
+
+func (d *dartsBuild) fetch(parent node) []node {
+	var siblings = make([]node, 0, 2)
+	if d.err < 0 {
+		return siblings[0:0]
+	}
+	var prev rune = 0
+
+	for i := parent.left; i < parent.right; i++ {
+		if len(d.key[i]) < parent.depth {
+			continue
+		}
+
+		tmp := d.key[i]
+
+		var cur rune = 0
+		if len(d.key[i]) != parent.depth {
+			cur = tmp[parent.depth] + 1
+		}
+
+		if prev > cur {
+			fmt.Println(prev, cur, i, parent.depth, d.key[i])
+			fmt.Println(d.key[i])
+			panic("fetch error 1")
+		}
+
+		if cur != prev || len(siblings) == 0 {
+			var tmpNode node
+			tmpNode.depth = parent.depth + 1
+			tmpNode.code = cur
+			tmpNode.left = i
+			if len(siblings) != 0 {
+				siblings[len(siblings)-1].right = i
+			}
+
+			siblings = append(siblings, tmpNode)
+		}
+
+		prev = cur
+	}
+
+	if len(siblings) != 0 {
+		siblings[len(siblings)-1].right = parent.right
+	}
+
+	return siblings
 }
