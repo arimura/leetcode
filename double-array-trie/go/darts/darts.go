@@ -205,3 +205,41 @@ func (d *dartsBuild) insert(siblings []node) int {
 
 	return begin
 }
+
+func (d Darts) UpdateThesaurus(keys [][]rune) {
+f0:
+	for _, key := range keys {
+		wordLen := len(key)
+		if wordLen < 2 {
+			continue
+		}
+
+		var subWords []SubWord
+		for i := 0; i < wordLen-1; i++ {
+			results := d.CommonPrefixSearch(key[i:], 0)
+			for _, result := range results {
+				if result.PrefixLen > 1 && result.PrefixLen < wordLen {
+					subWords = append(subWords, SubWord{i, result.PrefixLen})
+				}
+			}
+		}
+
+		b := d.Base[0]
+		var p int
+
+		for i := 0; i < len(key); i++ {
+			p = b + int(key[i]) + 1
+			if b == d.Check[p] {
+				b = d.Base[p]
+			} else {
+				continue f0
+			}
+		}
+
+		p = b
+		n := d.Base[p]
+		if b == d.Check[p] && n < 0 {
+			d.ValuePool[-n-1].SubWords = subWords
+		}
+	}
+}
