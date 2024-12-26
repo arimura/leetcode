@@ -123,3 +123,85 @@ func (d *dartsBuild) fetch(parent node) []node {
 
 	return siblings
 }
+
+func max(a, b int) int {
+	if a > b {
+		return a
+	}
+	return b
+}
+
+func (d *dartsBuild) insert(siblings []node) int {
+	if d.err < 0 {
+		panic("insert error")
+	}
+
+	var begin int = 0
+	var pos int = max(int(siblings[0].code)+1, d.nextCheckPos) - 1
+	var nonZeroNum int = 0
+	first := false
+	if len(d.darts.Base) <= pos {
+		d.resize(pos + 1)
+	}
+
+	for {
+	next:
+		pos++
+
+		if len(d.darts.Base) <= pos {
+			d.resize(pos + 1)
+		}
+
+		if d.darts.Check[pos] > 0 {
+			nonZeroNum++
+			continue
+		} else if !first {
+			d.nextCheckPos = pos
+			first = true
+		}
+
+		begin = pos - int(siblings[0].code)
+		if len(d.darts.Base) <= (begin + int(siblings[lens(siblings)-1].code)) {
+			d.resize(begin + int(siblings[len(siblings)-1].code+400))
+		}
+
+		if d.used[begin] {
+			continue
+		}
+
+		for i := 1; i < len(siblings); i++ {
+			if begin+int(siblings[i].code) >= len(d.darts.Base) {
+				fmt.Println(len(d.darts.Base), begin+int(siblings[i].code), begin+int(siblings[len(siblings)-1].code))
+			}
+			if 0 != d.darts.Check[begin+int(siblings[i].code)] {
+				goto next
+			}
+		}
+		break
+	}
+
+	if float32(nonZeroNum)/float32(pos-d.nectCheckPos+1) >= 0.95 {
+		d.nectCheckPos = pos
+	}
+	d.used[begin] = true
+	d.size = max(d.size, begin+int(siblings[len(siblings)-1].code)+1)
+
+	for i := 0; i < len(siblings); i++ {
+		d.darts.Check[begin+int(siblings[i].code)] = begin
+	}
+
+	for i := 0; i < len(siblings); i++ {
+		newSiblings := d.fetch(siblings[i])
+		if len(newSiblings) == 0 {
+			var value Value
+			value.Freq = d.freq[siblings[i].left]
+			d.darts.Base[begin+int(siblings[i].code)] = -len(d.darts.ValuePool)
+			d.darts.ValuePool = append(d.darts.ValuePool, value)
+		} else {
+			h := d.insert(newSiblings)
+			d.darts.Base[begin+int(siblings[i].code)] = h
+		}
+	}
+
+	return begin
+}
