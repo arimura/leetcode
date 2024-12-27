@@ -243,3 +243,24 @@ f0:
 		}
 	}
 }
+
+func (d Darts) ExactMatchSearch(key []rune, nodePos int) bool {
+	b := d.Base[nodePos]
+	var p int
+
+	for i := 0; i < len(key); i++ {
+		p = b + int(key[i]) + 1
+		if b == d.Check[p] {
+			b = d.Base[p]
+		} else {
+			return false
+		}
+	}
+
+	p = b
+	n := d.Base[p]
+	if b == d.Check[p] && n < 0 {
+		return true
+	}
+	return false
+}
