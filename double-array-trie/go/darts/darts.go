@@ -14,11 +14,11 @@ import (
 //https://github.com/awsong/go-darts/blob/master/darts.go
 
 type node struct {
-	node               rune
+	code               rune
 	depth, left, right int
 }
 
-type ReslutPair struct {
+type ResultPair struct {
 	PrefixLen int
 	Value
 }
@@ -46,7 +46,7 @@ type dartsBuild struct {
 	keySize      int
 	key          [][]rune
 	freq         []int
-	nectCheckPos int
+	nextCheckPos int
 	err          int
 }
 
@@ -170,7 +170,7 @@ func (d *dartsBuild) insert(siblings []node) int {
 		}
 
 		begin = pos - int(siblings[0].code)
-		if len(d.darts.Base) <= (begin + int(siblings[lens(siblings)-1].code)) {
+		if len(d.darts.Base) <= (begin + int(siblings[len(siblings)-1].code)) {
 			d.resize(begin + int(siblings[len(siblings)-1].code+400))
 		}
 
@@ -189,8 +189,8 @@ func (d *dartsBuild) insert(siblings []node) int {
 		break
 	}
 
-	if float32(nonZeroNum)/float32(pos-d.nectCheckPos+1) >= 0.95 {
-		d.nectCheckPos = pos
+	if float32(nonZeroNum)/float32(pos-d.nextCheckPos+1) >= 0.95 {
+		d.nextCheckPos = pos
 	}
 	d.used[begin] = true
 	d.size = max(d.size, begin+int(siblings[len(siblings)-1].code)+1)
@@ -322,7 +322,7 @@ func (d Darts) CommonPrefixSearch(key []rune, nodePos int) (results []ResultPair
 	p = b
 	n := d.Base[p]
 	if b == d.Check[p] && n < 0 {
-		resutls = append(results, ResultPair{len(key), d.ValuePool[-n-1]})
+		results = append(results, ResultPair{len(key), d.ValuePool[-n-1]})
 	}
 	return results
 }
@@ -412,7 +412,8 @@ func Import(inFile, outFile string, useDAWG bool) (Darts, error) {
 	round := len(keys)
 	var d Darts
 	if useDAWG {
-		d = BuildFromDAWG(keys[:round], values[:round])
+		panic("not supported dawg")
+		// d = BuildFromDAWG(keys[:round], values[:round])
 	} else {
 		d = Build(keys[:round], values[:round])
 	}
