@@ -1,6 +1,15 @@
 package darts
 
-import "fmt"
+import (
+	"bufio"
+	"encoding/gob"
+	"fmt"
+	"os"
+	"sort"
+	"strconv"
+	"strings"
+	"time"
+)
 
 //https://github.com/awsong/go-darts/blob/master/darts.go
 
@@ -269,11 +278,11 @@ func (d Darts) ExactMatchsearch(key []rune, nodePos int) bool {
 	b := d.Base[nodePos]
 	var p int
 
-	for i := 0; i < len(key); i=+ {
+	for i := 0; i < len(key); i++ {
 		p = b + int(key[i]) + 1
 		if b == d.Check[p] {
 			b = d.Base[p]
-		}else {
+		} else {
 			return false
 		}
 	}
@@ -318,4 +327,107 @@ func (d Darts) CommonPrefixSearch(key []rune, nodePos int) (results []ResultPair
 	return results
 }
 
+func Load(filename string) (Darts, error) {
+	var dict Darts
+	file, err := os.Open(filename)
+	if err != nil {
+		return Darts{}, err
+	}
+	defer file.Close()
 
+	dec := gob.NewDecoder(file)
+	dec.Decode(&dict)
+	return dict, nil
+}
+
+type dartsKey struct {
+	key   []rune
+	value int
+}
+type dartsKeySlice []dartsKey
+
+func (r dartsKeySlice) Len() int {
+	return len(r)
+}
+
+func (r dartsKeySlice) Less(i, j int) bool {
+	var l int
+	if len(r[i].key) < len(r[j].key) {
+		l = len(r[i].key)
+	} else {
+		l = len(r[j].key)
+	}
+
+	for m := 0; m < l; m++ {
+		if r[i].key[m] < r[j].key[m] {
+			return true
+		} else if r[i].key[m] == r[j].key[m] {
+			continue
+		} else {
+			return false
+		}
+	}
+	if len(r[i].key) < len(r[j].key) {
+		return true
+	}
+	return false
+}
+
+func (r dartsKeySlice) Swap(i, j int) {
+	r[i], r[j] = r[j], r[i]
+}
+
+func Import(inFile, outFile string, useDAWG bool) (Darts, error) {
+	unifile, erri := os.Open(inFile)
+	if erri != nil {
+		return Darts{}, erri
+	}
+	defer unifile.Close()
+	ofile, erro := os.Create(outFile)
+	if erro != nil {
+		return Darts{}, erro
+	}
+	defer ofile.Close()
+
+	dartsKeys := make(dartsKeySlice, 0, 130000)
+	uniLineReader := bufio.NewReaderSize(unifile, 400)
+	line, _, bufErr := uniLineReader.ReadLine()
+	for nil == bufErr {
+		rst := strings.Split(string(line), "\t")
+		key := []rune(rst[0])
+		value, _ := strconv.Atoi(rst[1])
+		dartsKeys = append(dartsKeys, dartsKey{key, value})
+		line, _, bufErr = uniLineReader.ReadLine()
+	}
+	sort.Sort(dartsKeys)
+
+	keys := make([][]rune, len(dartsKeys))
+	values := make([]int, len(dartsKeys))
+
+	for i := 0; i < len(dartsKeys); i++ {
+		keys[i] = dartsKeys[i].key
+		values[i] = dartsKeys[i].value
+	}
+	fmt.Printf("input dict length: %v\n", len(keys))
+	round := len(keys)
+	var d Darts
+	if useDAWG {
+		d = BuildFromDAWG(keys[:round], values[:round])
+	} else {
+		d = Build(keys[:round], values[:round])
+	}
+	d.UpdateThesaurus(keys[:round])
+	fmt.Printf("build out length %v\n", len(d.Base))
+	t := time.Now()
+	for i := 0; i < round; i++ {
+		if true != d.ExactMatchSearch(keys[i], 0) {
+			err := fmt.Errorf("missing key %s, %v, %d, %v, %v", string(keys[i]), keys[i], i, keys[i-1], keys[i+1])
+			return d, err
+		}
+	}
+	fmt.Println(time.Since(t))
+	enc := gob.NewEncoder(ofile)
+	enc.Encode(d)
+
+	return d, nil
+}
