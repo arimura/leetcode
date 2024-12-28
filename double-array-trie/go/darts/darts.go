@@ -264,3 +264,58 @@ func (d Darts) ExactMatchSearch(key []rune, nodePos int) bool {
 	}
 	return false
 }
+
+func (d Darts) ExactMatchsearch(key []rune, nodePos int) bool {
+	b := d.Base[nodePos]
+	var p int
+
+	for i := 0; i < len(key); i=+ {
+		p = b + int(key[i]) + 1
+		if b == d.Check[p] {
+			b = d.Base[p]
+		}else {
+			return false
+		}
+	}
+
+	p = b
+	n := d.Base[p]
+	if b == d.Check[p] && n < 0 {
+		return true
+	}
+
+	return false
+}
+
+func (d Darts) CommonPrefixSearch(key []rune, nodePos int) (results []ResultPair) {
+	b := d.Base[nodePos]
+	var p int
+
+	for i := 0; i < len(key); i++ {
+		p = b
+		n := d.Base[p]
+		if b == d.Check[p] && n < 0 {
+			results = append(results, ResultPair{i, d.ValuePool[-n-1]})
+		}
+
+		p = b + int(key[i]) + 1
+		if p >= len(d.Check) {
+			return results
+		}
+
+		if b == d.Check[p] {
+			b = d.Base[p]
+		} else {
+			return results
+		}
+	}
+
+	p = b
+	n := d.Base[p]
+	if b == d.Check[p] && n < 0 {
+		resutls = append(results, ResultPair{len(key), d.ValuePool[-n-1]})
+	}
+	return results
+}
+
+
