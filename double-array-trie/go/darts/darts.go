@@ -225,6 +225,7 @@ f0:
 
 		var subWords []SubWord
 		for i := 0; i < wordLen-1; i++ {
+			fmt.Printf("[UpdateThesaurus] CommonPrefixSearch with %s\n", string(key[i:]))
 			results := d.CommonPrefixSearch(key[i:], 0)
 			for _, result := range results {
 				if result.PrefixLen > 1 && result.PrefixLen < wordLen {
@@ -396,6 +397,7 @@ func Import(inFile, outFile string, useDAWG bool) (Darts, error) {
 		rst := strings.Split(string(line), "\t")
 		key := []rune(rst[0])
 		value, _ := strconv.Atoi(rst[1])
+		fmt.Printf("key: %s, value; %d\n", rst[0], value)
 		dartsKeys = append(dartsKeys, dartsKey{key, value})
 		line, _, bufErr = uniLineReader.ReadLine()
 	}
