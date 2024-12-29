@@ -229,7 +229,10 @@ f0:
 			results := d.CommonPrefixSearch(key[i:], 0)
 			for _, result := range results {
 				if result.PrefixLen > 1 && result.PrefixLen < wordLen {
+					fmt.Printf("[UpdateThesaurus] append subwords\n")
 					subWords = append(subWords, SubWord{i, result.PrefixLen})
+				} else {
+					fmt.Printf("[UpdateThesaurus] not append subwords\n")
 				}
 			}
 		}
