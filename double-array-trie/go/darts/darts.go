@@ -3,6 +3,7 @@ package darts
 import (
 	"bufio"
 	"encoding/gob"
+	"encoding/json"
 	"fmt"
 	"os"
 	"sort"
@@ -62,6 +63,14 @@ type dartsBuild struct {
 	err          int
 }
 
+func (d *dartsBuild) toJSON() string {
+	jsonData, err := json.MarshalIndent(d, "", "  ")
+	if err != nil {
+		return ""
+	}
+	return string(jsonData)
+}
+
 func Build(key [][]rune, freq []int) Darts {
 	var d = new(dartsBuild)
 
@@ -82,6 +91,7 @@ func Build(key [][]rune, freq []int) Darts {
 		fmt.Printf("[Build] sibling %s\n", s.toString())
 	}
 	d.insert(sibling)
+	fmt.Printf("[Build] darts after inserting sibling: %s", d.toJSON())
 
 	if d.err < 0 {
 		panic("Build error")
