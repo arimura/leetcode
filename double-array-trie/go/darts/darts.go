@@ -91,7 +91,7 @@ func Build(key [][]rune, freq []int) Darts {
 		fmt.Printf("[Build] sibling %s\n", s.toString())
 	}
 	d.insert(sibling)
-	fmt.Printf("[Build] darts after inserting sibling: %s", d.toJSON())
+	fmt.Printf("[Build] darts after inserting sibling: %s\n", d.toJSON())
 
 	if d.err < 0 {
 		panic("Build error")
