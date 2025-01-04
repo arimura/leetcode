@@ -26,6 +26,10 @@ type node struct {
 	right int
 }
 
+func (n *node) toString() string {
+	return fmt.Sprintf("code: %s, depth: %d, left: %d, right: %d", string(n.code), n.depth, n.left, n.right)
+}
+
 type ResultPair struct {
 	PrefixLen int
 	Value
@@ -74,6 +78,9 @@ func Build(key [][]rune, freq []int) Darts {
 	rootNode.right = len(key)
 
 	sibling := d.fetch(rootNode)
+	for _, s := range sibling {
+		fmt.Printf("[Build] sibling %s\n", s.toString())
+	}
 	d.insert(sibling)
 
 	if d.err < 0 {
