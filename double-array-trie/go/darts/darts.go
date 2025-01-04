@@ -229,7 +229,7 @@ func (d *dartsBuild) insert(siblings []node) int {
 		if len(newSiblings) == 0 {
 			var value Value
 			value.Freq = d.freq[siblings[i].left]
-			d.darts.Base[begin+int(siblings[i].code)] = -len(d.darts.ValuePool)
+			d.darts.Base[begin+int(siblings[i].code)] = -len(d.darts.ValuePool) - 1
 			d.darts.ValuePool = append(d.darts.ValuePool, value)
 		} else {
 			h := d.insert(newSiblings)
