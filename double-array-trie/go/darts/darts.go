@@ -14,8 +14,16 @@ import (
 //https://github.com/awsong/go-darts/blob/master/darts.go
 
 type node struct {
-	code               rune
-	depth, left, right int
+	code rune
+	//the number of characters from the root
+	depth int
+	//
+	left int
+	//These define a half-open range [left, right) in the sorted list of keys.
+	//In other words, among all input keys,
+	//the keys you need to process for this node’s subtree
+	//are the ones in key[left:right].
+	right int
 }
 
 type ResultPair struct {
