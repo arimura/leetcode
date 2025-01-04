@@ -3,7 +3,6 @@ package darts
 import (
 	"bufio"
 	"encoding/gob"
-	"encoding/json"
 	"fmt"
 	"os"
 	"sort"
@@ -28,7 +27,14 @@ type node struct {
 }
 
 func (n *node) toString() string {
-	return fmt.Sprintf("code: %s, depth: %d, left: %d, right: %d", string(n.code), n.depth, n.left, n.right)
+	return fmt.Sprintf("code: %d, code_point:%d, char: %s,  depth: %d, left: %d, right: %d",
+		n.code,
+		n.code-1,
+		string(n.code-1),
+		n.depth,
+		n.left,
+		n.right,
+	)
 }
 
 type ResultPair struct {
@@ -63,12 +69,16 @@ type dartsBuild struct {
 	err          int
 }
 
-func (d *dartsBuild) toJSON() string {
-	jsonData, err := json.MarshalIndent(d, "", "  ")
-	if err != nil {
-		return ""
+func (d *dartsBuild) info() {
+	for i := 0; i < len(d.darts.Base); i++ {
+		if d.darts.Base[i] != 0 {
+			fmt.Printf("[Darts info] index: %d, char: %s, Base: %d, Check: %d\n",
+				i,
+				string(rune(i-1)),
+				d.darts.Base[i],
+				d.darts.Check[i])
+		}
 	}
-	return string(jsonData)
 }
 
 func Build(key [][]rune, freq []int) Darts {
@@ -91,7 +101,8 @@ func Build(key [][]rune, freq []int) Darts {
 		fmt.Printf("[Build] sibling %s\n", s.toString())
 	}
 	d.insert(sibling)
-	fmt.Printf("[Build] darts after inserting sibling: %s\n", d.toJSON())
+	fmt.Printf("[Build] darts after inserting sibling")
+	d.info()
 
 	if d.err < 0 {
 		panic("Build error")
