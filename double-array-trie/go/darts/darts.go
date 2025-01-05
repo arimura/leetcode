@@ -98,7 +98,7 @@ func Build(key [][]rune, freq []int) Darts {
 
 	sibling := d.fetch(rootNode)
 	for _, s := range sibling {
-		fmt.Printf("[Build] sibling %s\n", s.toString())
+		fmt.Printf("[Build] sibling node to be inserted: %s\n", s.toString())
 	}
 	d.insert(sibling)
 	fmt.Printf("[Build] darts after inserting sibling")
