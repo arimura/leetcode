@@ -24,7 +24,7 @@ func New(c int) *DoubleArrayTrie {
 }
 
 func (d *DoubleArrayTrie) walk(s int, r rune) (bool, int) {
-	t := d.base[s] + keyMap[r]
+	t := d.base[s] + d.keyMap[r]
 	if d.check[t] == s {
 		return true, t
 	}
