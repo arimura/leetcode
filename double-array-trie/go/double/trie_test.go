@@ -4,6 +4,24 @@ import (
 	"testing"
 )
 
+func TestExactMatchSearch(t *testing.T) {
+	d := New(17)
+	d.base = []int{0, 1, 3, 0, 0, 2, 2, 0, 0}
+	d.check = []int{0, 0, 1, 0, 0, 2, 5, 0, 6}
+
+	r := d.ExactMatchSearch("abd#")
+	if !r {
+		t.Error("fail with abd#")
+		t.Fail()
+	}
+
+	r = d.ExactMatchSearch("ab")
+	if r {
+		t.Error("fail with ab")
+		t.Fail()
+	}
+}
+
 func TestWalk(t *testing.T) {
 	d := New(17)
 	d.base = []int{0, 1, 3, 0, 0, 2, 2, 0, 0}

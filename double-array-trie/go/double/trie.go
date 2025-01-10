@@ -23,6 +23,21 @@ func New(c int) *DoubleArrayTrie {
 	return t
 }
 
+func (d *DoubleArrayTrie) ExactMatchSearch(key string) bool {
+	s := 1
+	for _, r := range key {
+		result, rs := d.walk(s, r)
+		if !result {
+			return false
+		}
+		s = rs
+	}
+	if d.base[s] == 0 {
+		return true
+	}
+	return false
+}
+
 func (d *DoubleArrayTrie) walk(s int, r rune) (bool, int) {
 	t := d.base[s] + d.keyMap[r]
 	if d.check[t] == s {
