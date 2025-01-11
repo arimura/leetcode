@@ -44,11 +44,25 @@ func TestWalk(t *testing.T) {
 
 func TestInsert(t *testing.T) {
 	d := New(17)
-	d.insert(1, "ab")
+	d.insert("ab")
 
 	r := d.ExactMatchSearch("ab")
 	if !r {
 		t.Errorf("Base:  %v", d.base)
 		t.Errorf("Check: %v", d.check)
+	}
+}
+
+func TestInsertSameParent(t *testing.T) {
+	d := New(17)
+	d.insert("ab#")
+	// d.insert("abc#")
+
+	r := d.ExactMatchSearch("ab#")
+	if !r {
+		t.Error("failed with ab#")
+		t.Errorf("Base:  %v", d.base)
+		t.Errorf("Check: %v", d.check)
+		t.Fail()
 	}
 }
