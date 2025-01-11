@@ -51,6 +51,13 @@ func TestWaklbyKey(t *testing.T) {
 	success, state, depth := d.walkBykey("a")
 	if !success || state != 2 || depth != 1 {
 		t.Errorf("success: %v, state: %v, depth: %v", success, state, depth)
+		t.Fail()
+	}
+
+	success, state, depth = d.walkBykey("b")
+	if success || state != 1 || depth != 0 {
+		t.Errorf("success: %v, state: %v, depth: %v", success, state, depth)
+		t.Fail()
 	}
 }
 
