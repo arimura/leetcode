@@ -74,17 +74,17 @@ func TestInsert2(t *testing.T) {
 	d := newWith_abSharp()
 
 	d.insert2("abc#")
+	// d.insert2("ac#")
 
 	r := d.ExactMatchSearch("ab#")
 	if !r {
 		t.Error("ab#")
-		t.Fail()
 	}
 	r = d.ExactMatchSearch("abc#")
 	if !r {
 		t.Error("abc#")
-		t.Fail()
 	}
+
 	t.Logf("Base:  %v", d.base)
 	t.Logf("Check: %v", d.check)
 }

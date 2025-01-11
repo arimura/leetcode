@@ -1,11 +1,14 @@
 package double
 
-import "fmt"
+import (
+	"fmt"
+)
 
 type DoubleArrayTrie struct {
 	base   []int
 	check  []int
 	keyMap map[rune]int
+	valMap map[int]rune
 }
 
 // Double Array Trie based on https://www.slideshare.net/higashiyama/ss-8738479#2
@@ -21,6 +24,14 @@ func New(c int) *DoubleArrayTrie {
 		'd': 4,
 		'e': 5,
 		'#': 6,
+	}
+	t.valMap = map[int]rune{
+		1: 'a',
+		2: 'b',
+		3: 'c',
+		4: 'd',
+		5: 'e',
+		6: '#',
 	}
 	return t
 }
@@ -72,13 +83,24 @@ func (d *DoubleArrayTrie) insert(key string) {
 
 func (d *DoubleArrayTrie) insert2(key string) {
 	ws, s, depth := d.walkBykey(key)
-	fmt.Printf("ws: %v, s: %d, depth: %d\n", ws, s, depth)
 	if !ws {
 		for _, r := range key[depth:] {
-			base := d.decideBase(r)
-			d.base[s] = base
-			d.check[base+d.keyMap[r]] = s
-			s = base + d.keyMap[r]
+			//check conflict
+			if (d.check[d.base[s]+d.keyMap[r]]) == 0 {
+				fmt.Println("no conflict")
+				labels := make([]rune, 0)
+				for i, c := range d.check {
+					if c == s {
+						labels = append(labels, d.valMap[i])
+					}
+				}
+			} else {
+				fmt.Println("conflict")
+				base := d.decideBase(r)
+				d.base[s] = base
+				d.check[base+d.keyMap[r]] = s
+				s = base + d.keyMap[r]
+			}
 		}
 	}
 }
