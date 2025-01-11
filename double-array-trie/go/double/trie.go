@@ -24,7 +24,7 @@ func New(c int) *DoubleArrayTrie {
 }
 
 func (d *DoubleArrayTrie) ExactMatchSearch(key string) bool {
-	r, s := d.walkBykey(key)
+	r, s, _ := d.walkBykey(key)
 	if !r {
 		return false
 	}
@@ -34,16 +34,18 @@ func (d *DoubleArrayTrie) ExactMatchSearch(key string) bool {
 	return false
 }
 
-func (d *DoubleArrayTrie) walkBykey(key string) (bool, int) {
+func (d *DoubleArrayTrie) walkBykey(key string) (bool, int, int) {
 	s := 1
+	depth := 0
 	for _, r := range key {
 		result, rs := d.walk(s, r)
 		if !result {
-			return false, 0
+			return false, s, depth
 		}
 		s = rs
+		depth++
 	}
-	return true, s
+	return true, s, depth
 }
 
 func (d *DoubleArrayTrie) walk(s int, r rune) (bool, int) {
@@ -56,13 +58,20 @@ func (d *DoubleArrayTrie) walk(s int, r rune) (bool, int) {
 
 func (d *DoubleArrayTrie) insert(key string) {
 	s := 1
-	for _, r := range []rune(key) {
+	for _, r := range key {
 		base := d.decideBase(s, r)
 		d.base[s] = base
 		d.check[base+d.keyMap[r]] = s
 		s = base + d.keyMap[r]
 	}
 }
+
+// func (d *DoubleArrayTrie) insert2(key string) {
+// 	r, s := d.walkBykey(key)
+// 	if !r {
+
+// 	}
+// }
 
 func (d *DoubleArrayTrie) decideBase(s int, r rune) int {
 	base := 1
