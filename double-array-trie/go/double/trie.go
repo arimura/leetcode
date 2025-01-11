@@ -1,5 +1,7 @@
 package double
 
+import "fmt"
+
 type DoubleArrayTrie struct {
 	base   []int
 	check  []int
@@ -61,21 +63,27 @@ func (d *DoubleArrayTrie) walk(s int, r rune) (bool, int) {
 func (d *DoubleArrayTrie) insert(key string) {
 	s := 1
 	for _, r := range key {
-		base := d.decideBase(s, r)
+		base := d.decideBase(r)
 		d.base[s] = base
 		d.check[base+d.keyMap[r]] = s
 		s = base + d.keyMap[r]
 	}
 }
 
-// func (d *DoubleArrayTrie) insert2(key string) {
-// 	r, s := d.walkBykey(key)
-// 	if !r {
+func (d *DoubleArrayTrie) insert2(key string) {
+	ws, s, depth := d.walkBykey(key)
+	fmt.Printf("ws: %v, s: %d, depth: %d\n", ws, s, depth)
+	if !ws {
+		for _, r := range key[depth:] {
+			base := d.decideBase(r)
+			d.base[s] = base
+			d.check[base+d.keyMap[r]] = s
+			s = base + d.keyMap[r]
+		}
+	}
+}
 
-// 	}
-// }
-
-func (d *DoubleArrayTrie) decideBase(s int, r rune) int {
+func (d *DoubleArrayTrie) decideBase(r rune) int {
 	base := 1
 	stop := false
 	for !stop {

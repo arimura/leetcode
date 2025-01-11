@@ -4,10 +4,22 @@ import (
 	"testing"
 )
 
-func TestExactMatchSearch(t *testing.T) {
-	d := New(17)
+func newWith_abdSharp() *DoubleArrayTrie {
+	d := New(0)
 	d.base = []int{0, 1, 3, 0, 0, 2, 2, 0, 0}
 	d.check = []int{0, 0, 1, 0, 0, 2, 5, 0, 6}
+	return d
+}
+
+func newWith_abSharp() *DoubleArrayTrie {
+	d := New(0)
+	d.base = []int{0, 1, 1, 1, 0, 0, 0, 0, 0, 0}
+	d.check = []int{0, 0, 1, 2, 0, 0, 0, 3, 0, 0}
+	return d
+}
+
+func TestExactMatchSearch(t *testing.T) {
+	d := newWith_abdSharp()
 
 	r := d.ExactMatchSearch("abd#")
 	if !r {
@@ -23,10 +35,7 @@ func TestExactMatchSearch(t *testing.T) {
 }
 
 func TestWalk(t *testing.T) {
-	d := New(17)
-	d.base = []int{0, 1, 3, 0, 0, 2, 2, 0, 0}
-	d.check = []int{0, 0, 1, 0, 0, 2, 5, 0, 6}
-
+	d := newWith_abdSharp()
 	next := 1
 	result := false
 	for _, r := range []rune{'a', 'b', 'd', '#'} {
@@ -59,6 +68,25 @@ func TestWaklbyKey(t *testing.T) {
 		t.Errorf("success: %v, state: %v, depth: %v", success, state, depth)
 		t.Fail()
 	}
+}
+
+func TestInsert2(t *testing.T) {
+	d := newWith_abSharp()
+
+	d.insert2("abc#")
+
+	r := d.ExactMatchSearch("ab#")
+	if !r {
+		t.Error("ab#")
+		t.Fail()
+	}
+	r = d.ExactMatchSearch("abc#")
+	if !r {
+		t.Error("abc#")
+		t.Fail()
+	}
+	t.Logf("Base:  %v", d.base)
+	t.Logf("Check: %v", d.check)
 }
 
 func TestInsert(t *testing.T) {
