@@ -41,3 +41,14 @@ func TestWalk(t *testing.T) {
 		t.Error("invalid walk")
 	}
 }
+
+func TestInsert(t *testing.T) {
+	d := New(17)
+	d.insert(1, "ab")
+
+	r := d.ExactMatchSearch("ab")
+	if !r {
+		t.Errorf("Base:  %v", d.base)
+		t.Errorf("Check: %v", d.check)
+	}
+}

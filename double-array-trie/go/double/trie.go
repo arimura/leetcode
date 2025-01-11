@@ -54,6 +54,24 @@ func (d *DoubleArrayTrie) walk(s int, r rune) (bool, int) {
 	return false, 0
 }
 
-// func (d *DoubleArrayTrie) insert(key string) bool {
+func (d *DoubleArrayTrie) insert(s int, key string) {
+	for _, r := range []rune(key) {
+		base := d.decideBase(s, r)
+		d.base[s] = base
+		d.check[base+d.keyMap[r]] = s
+		s = base + d.keyMap[r]
+	}
+}
 
-// }
+func (d *DoubleArrayTrie) decideBase(s int, r rune) int {
+	base := 1
+	stop := false
+	for !stop {
+		t := base + d.keyMap[r]
+		if d.check[t] == 0 {
+			return base
+		}
+		base++
+	}
+	panic("can't find base")
+}
