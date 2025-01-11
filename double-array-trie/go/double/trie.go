@@ -34,8 +34,10 @@ func (d *DoubleArrayTrie) ExactMatchSearch(key string) bool {
 	return false
 }
 
+// "ab#" is in dat, if walk by "a", return true, 2, 1
 func (d *DoubleArrayTrie) walkBykey(key string) (bool, int, int) {
 	s := 1
+	//depth:0 is root node
 	depth := 0
 	for _, r := range key {
 		result, rs := d.walk(s, r)

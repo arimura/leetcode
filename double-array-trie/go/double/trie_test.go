@@ -42,6 +42,18 @@ func TestWalk(t *testing.T) {
 	}
 }
 
+func TestWaklbyKey(t *testing.T) {
+	//"ab#" is in dat
+	d := New(17)
+	d.base = []int{0, 1, 3, 0, 0, 2, 2, 0, 0}
+	d.check = []int{0, 0, 1, 0, 0, 2, 5, 0, 6}
+
+	success, state, depth := d.walkBykey("a")
+	if !success || state != 2 || depth != 1 {
+		t.Errorf("success: %v, state: %v, depth: %v", success, state, depth)
+	}
+}
+
 func TestInsert(t *testing.T) {
 	d := New(17)
 	d.insert("ab")
