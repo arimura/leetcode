@@ -70,10 +70,10 @@ func TestWaklbyKey(t *testing.T) {
 	}
 }
 
-func TestInsert2(t *testing.T) {
+func TestInsert(t *testing.T) {
 	d := newWith_abSharp()
 
-	d.insert2("abc#")
+	d.insert("abc#")
 	// d.insert2("ac#")
 
 	r := d.ExactMatchSearch("ab#")
@@ -87,29 +87,4 @@ func TestInsert2(t *testing.T) {
 
 	t.Logf("Base:  %v", d.base)
 	t.Logf("Check: %v", d.check)
-}
-
-func TestInsert(t *testing.T) {
-	d := New(17)
-	d.insert("ab")
-
-	r := d.ExactMatchSearch("ab")
-	if !r {
-		t.Errorf("Base:  %v", d.base)
-		t.Errorf("Check: %v", d.check)
-	}
-}
-
-func TestInsertSameParent(t *testing.T) {
-	d := New(17)
-	d.insert("ab#")
-	// d.insert("abc#")
-
-	r := d.ExactMatchSearch("ab#")
-	if !r {
-		t.Error("failed with ab#")
-		t.Errorf("Base:  %v", d.base)
-		t.Errorf("Check: %v", d.check)
-		t.Fail()
-	}
 }

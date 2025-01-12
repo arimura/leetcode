@@ -72,16 +72,6 @@ func (d *DoubleArrayTrie) walk(s int, r rune) (bool, int) {
 }
 
 func (d *DoubleArrayTrie) insert(key string) {
-	s := 1
-	for _, r := range key {
-		base := d.decideBase(r)
-		d.base[s] = base
-		d.check[base+d.keyMap[r]] = s
-		s = base + d.keyMap[r]
-	}
-}
-
-func (d *DoubleArrayTrie) insert2(key string) {
 	ws, s, depth := d.walkBykey(key)
 	if !ws {
 		for _, r := range key[depth:] {
