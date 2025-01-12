@@ -36,6 +36,11 @@ func New(c int) *DoubleArrayTrie {
 	return t
 }
 
+func (d *DoubleArrayTrie) logArray() {
+	fmt.Printf("base:  %v\n", d.base)
+	fmt.Printf("check: %v\n", d.check)
+}
+
 func (d *DoubleArrayTrie) ExactMatchSearch(key string) bool {
 	r, s, _ := d.walkBykey(key)
 	if !r {
@@ -115,6 +120,17 @@ func (d *DoubleArrayTrie) insert(key string) {
 				}
 				//update base
 				fmt.Printf("next base: %d\n", tmpBase)
+
+				pastBase := d.base[s]
+				d.base[s] = tmpBase
+
+				//update check by new base
+				d.check[d.base[s]+d.labelCharToVal[r]] = s
+				for _, label := range labels {
+					d.check[d.base[s]+d.labelCharToVal[label]] = s
+					d.base[d.base[s]+d.labelCharToVal[label]] = d.base[pastBase]
+				}
+				d.logArray()
 			}
 		}
 	}
