@@ -5,10 +5,10 @@ import (
 )
 
 type DoubleArrayTrie struct {
-	base   []int
-	check  []int
-	keyMap map[rune]int
-	valMap map[int]rune
+	base           []int
+	check          []int
+	labelCharToVal map[rune]int
+	labelValToChar map[int]rune
 }
 
 // Double Array Trie based on https://www.slideshare.net/higashiyama/ss-8738479#2
@@ -17,7 +17,7 @@ func New(c int) *DoubleArrayTrie {
 		base:  make([]int, c),
 		check: make([]int, c),
 	}
-	t.keyMap = map[rune]int{
+	t.labelCharToVal = map[rune]int{
 		'a': 1,
 		'b': 2,
 		'c': 3,
@@ -25,7 +25,7 @@ func New(c int) *DoubleArrayTrie {
 		'e': 5,
 		'#': 6,
 	}
-	t.valMap = map[int]rune{
+	t.labelValToChar = map[int]rune{
 		1: 'a',
 		2: 'b',
 		3: 'c',
@@ -64,7 +64,7 @@ func (d *DoubleArrayTrie) walkBykey(key string) (bool, int, int) {
 }
 
 func (d *DoubleArrayTrie) walk(s int, r rune) (bool, int) {
-	t := d.base[s] + d.keyMap[r]
+	t := d.base[s] + d.labelCharToVal[r]
 	if d.check[t] == s {
 		return true, t
 	}
@@ -76,18 +76,18 @@ func (d *DoubleArrayTrie) insert(key string) {
 	if !ws {
 		for _, r := range key[depth:] {
 			//check conflict
-			if (d.check[d.base[s]+d.keyMap[r]]) == 0 {
+			if (d.check[d.base[s]+d.labelCharToVal[r]]) == 0 {
 				fmt.Println("no conflict")
 				base := d.decideBase(r)
 				d.base[s] = base
-				d.check[base+d.keyMap[r]] = s
-				s = base + d.keyMap[r]
+				d.check[base+d.labelCharToVal[r]] = s
+				s = base + d.labelCharToVal[r]
 			} else {
 				fmt.Println("conflict")
 				labels := make([]rune, 0)
 				for i, c := range d.check {
 					if c == s {
-						labels = append(labels, d.valMap[i])
+						labels = append(labels, d.labelValToChar[i])
 					}
 				}
 			}
@@ -99,7 +99,7 @@ func (d *DoubleArrayTrie) decideBase(r rune) int {
 	base := 1
 	stop := false
 	for !stop {
-		t := base + d.keyMap[r]
+		t := base + d.labelCharToVal[r]
 		if d.check[t] == 0 {
 			return base
 		}
