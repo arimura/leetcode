@@ -88,18 +88,18 @@ func (d *DoubleArrayTrie) insert2(key string) {
 			//check conflict
 			if (d.check[d.base[s]+d.keyMap[r]]) == 0 {
 				fmt.Println("no conflict")
+				base := d.decideBase(r)
+				d.base[s] = base
+				d.check[base+d.keyMap[r]] = s
+				s = base + d.keyMap[r]
+			} else {
+				fmt.Println("conflict")
 				labels := make([]rune, 0)
 				for i, c := range d.check {
 					if c == s {
 						labels = append(labels, d.valMap[i])
 					}
 				}
-			} else {
-				fmt.Println("conflict")
-				base := d.decideBase(r)
-				d.base[s] = base
-				d.check[base+d.keyMap[r]] = s
-				s = base + d.keyMap[r]
 			}
 		}
 	}
