@@ -84,7 +84,8 @@ func TestInsert(t *testing.T) {
 	if !r {
 		t.Error("abc#")
 	}
-
-	t.Logf("Base:  %v", d.base)
-	t.Logf("Check: %v", d.check)
+	r = d.ExactMatchSearch("ac#")
+	if !r {
+		t.Error("ac#")
+	}
 }

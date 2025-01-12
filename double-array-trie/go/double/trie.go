@@ -82,11 +82,12 @@ func (d *DoubleArrayTrie) insert(key string) {
 		for _, r := range key[depth:] {
 			//check conflict
 			if (d.check[d.base[s]+d.labelCharToVal[r]]) == 0 {
-				fmt.Println("no conflict")
+				fmt.Printf("no conflict with %s\n", string(r))
 				base := d.decideBase(r, 1)
 				d.base[s] = base
 				d.check[base+d.labelCharToVal[r]] = s
 				s = base + d.labelCharToVal[r]
+				d.logArray()
 			} else {
 				fmt.Printf("conflict on state: %d, label: %s\n", s, string(r))
 				labels := make([]rune, 0)
@@ -118,23 +119,41 @@ func (d *DoubleArrayTrie) insert(key string) {
 						break
 					}
 				}
-				//update base
 				fmt.Printf("next base: %d\n", tmpBase)
 
 				pastIndex := s
+				pastBase := d.base[pastIndex]
 				fmt.Printf("past index: %v\n", pastIndex)
+				fmt.Printf("past base: %v\n", pastBase)
+				//update base of conflict
 				d.base[s] = tmpBase
 
-				//update check by new base
+				// Update check by new base
+				// r is newly added label and no child node
 				d.check[d.base[s]+d.labelCharToVal[r]] = s
+				// update already existing child nodes of conflict node
 				for _, label := range labels {
+					//update childe nodes of conflict note
 					d.check[d.base[s]+d.labelCharToVal[label]] = s
-					d.base[d.base[s]+d.labelCharToVal[label]] = d.base[d.base[pastIndex]]
-					//元遷移先から、さらに遷移されるノードを確認
-
+					d.base[d.base[s]+d.labelCharToVal[label]] = d.base[pastBase+d.labelCharToVal[label]]
+					//update child nodes of child nodes ot conflict node
+					if d.base[pastIndex] > 0 {
+						idxFromPast := make([]int, 0)
+						for i, l := range d.check {
+							if l == d.base[pastIndex] {
+								idxFromPast = append(idxFromPast, i)
+							}
+						}
+						fmt.Printf("idx from past: %v\n", idxFromPast)
+						for _, idx := range idxFromPast {
+							d.check[idx] = d.base[s] + d.labelCharToVal[label]
+						}
+					}
+					d.base[pastBase+d.labelCharToVal[label]] = 0
+					d.check[pastBase+d.labelCharToVal[label]] = 0
 				}
+				s = d.base[s] + d.labelCharToVal[r]
 				d.logArray()
-
 			}
 		}
 	}
