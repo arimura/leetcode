@@ -121,16 +121,20 @@ func (d *DoubleArrayTrie) insert(key string) {
 				//update base
 				fmt.Printf("next base: %d\n", tmpBase)
 
-				pastBase := d.base[s]
+				pastIndex := s
+				fmt.Printf("past index: %v\n", pastIndex)
 				d.base[s] = tmpBase
 
 				//update check by new base
 				d.check[d.base[s]+d.labelCharToVal[r]] = s
 				for _, label := range labels {
 					d.check[d.base[s]+d.labelCharToVal[label]] = s
-					d.base[d.base[s]+d.labelCharToVal[label]] = d.base[pastBase]
+					d.base[d.base[s]+d.labelCharToVal[label]] = d.base[d.base[pastIndex]]
+					//元遷移先から、さらに遷移されるノードを確認
+
 				}
 				d.logArray()
+
 			}
 		}
 	}
