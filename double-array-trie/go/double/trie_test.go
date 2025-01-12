@@ -74,7 +74,7 @@ func TestInsert(t *testing.T) {
 	d := newWith_abSharp()
 
 	d.insert("abc#")
-	// d.insert2("ac#")
+	d.insert("ac#")
 
 	r := d.ExactMatchSearch("ab#")
 	if !r {

@@ -78,25 +78,50 @@ func (d *DoubleArrayTrie) insert(key string) {
 			//check conflict
 			if (d.check[d.base[s]+d.labelCharToVal[r]]) == 0 {
 				fmt.Println("no conflict")
-				base := d.decideBase(r)
+				base := d.decideBase(r, 1)
 				d.base[s] = base
 				d.check[base+d.labelCharToVal[r]] = s
 				s = base + d.labelCharToVal[r]
 			} else {
-				fmt.Println("conflict")
+				fmt.Printf("conflict on state: %d, label: %s\n", s, string(r))
 				labels := make([]rune, 0)
 				for i, c := range d.check {
 					if c == s {
-						labels = append(labels, d.labelValToChar[i])
+						labels = append(labels, d.labelValToChar[i-d.base[s]])
 					}
 				}
+				fmt.Printf("labels: %v\n", string(labels))
+				//change s base for labels
+				var tmpBase int
+				for i := 0; i < 100; i++ {
+					if i == 99 {
+						panic("failed to decide base")
+					}
+
+					fmt.Printf("try decide with base: %d\n", d.base[s]+1+i)
+					tmpBase = d.decideBase(r, d.base[s]+1+i)
+					ok := true
+					for _, l := range labels {
+						if d.check[tmpBase+d.labelCharToVal[l]] == 0 {
+							continue
+						}
+						ok = false
+						break
+					}
+					if ok {
+						fmt.Println("ok")
+						break
+					}
+				}
+				//update base
+				fmt.Printf("next base: %d\n", tmpBase)
 			}
 		}
 	}
 }
 
-func (d *DoubleArrayTrie) decideBase(r rune) int {
-	base := 1
+func (d *DoubleArrayTrie) decideBase(r rune, startBase int) int {
+	base := startBase
 	stop := false
 	for !stop {
 		t := base + d.labelCharToVal[r]
