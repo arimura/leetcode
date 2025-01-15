@@ -1,7 +1,6 @@
 go 1.21.6
 
 use (
-	./double-array-trie/go
 	./house-robber/go
 	./kth-largest-element-in-an-array/go
 	./maximum-subsequence-score/go
