@@ -3,6 +3,10 @@ SWIFT_LIB_DIR=LeetcodeUtil/.build/x86_64-apple-macosx/debug
 SWIFT_LIB_NAME=LeetcodeUtil
 SWIFT_LIB_PATH=$(SWIFT_LIB_DIR)/lib$(SWIFT_LIB_NAME).a
 
+run-cpp:
+	clang++ -std=c++20 $(P)/cpp/main.cpp -o main
+	./main
+
 run-java:
 	javac $(P)/Main.java
 	cd $(P) && java Main
