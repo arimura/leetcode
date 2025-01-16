@@ -7,18 +7,14 @@ using namespace std;
 class Solution
 {
 public:
-    int singleNumber(vector<int> &nums) {
-        set<int> s;
-        for(int n : nums) {
-            if (s.find(n) != s.end()){
-                s.erase(n);
-            }else {
-                s.insert(n);
-            }
+    int singleNumber(vector<int> &nums)
+    {
+        int result = 0;
+        for (int num : nums)
+        {
+            result ^= num; // XOR each number into result
         }
-
-        auto b = s.begin();
-        return *b;
+        return result;
     }
 };
 
@@ -31,4 +27,3 @@ int main()
     std::cout << "The single number is: " << result << std::endl;
     return 0;
 }
-
